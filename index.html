@@ -156,7 +156,7 @@
 
         // Function to open QR scanner
         function openQRScanner() {
-            Telegram.WebApp.scanQrPopup({
+            Telegram.WebApp.showScanQrPopup({
                 text: 'Scan QR Code',
                 onResult: (result) => {
                     Telegram.WebApp.showAlert(`QR Code scanned: ${result}`);
