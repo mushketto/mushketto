@@ -59,14 +59,7 @@
         #viewport-params-expand {
             top: 30px;
         }
-
-        #qr-reader {
-            width: 100%;
-            max-width: 400px;
-            margin: 20px auto;
-        }
     </style>
-    <link rel="stylesheet" href="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.css">
 </head>
 
 <body>
@@ -95,13 +88,11 @@
         <button onclick="Telegram.WebApp.expand();">Expand Webview</button>
         <button onclick="toggleMainButton();">Toggle Main Button</button>
         <button onclick="openQRScanner();">Open QR Scanner</button>
-        <div id="qr-reader" style="display:none;"></div>
     </main>
     <div id="viewport"></div>
     <div id="viewport-params-size"></div>
     <div id="viewport-params-expand"></div>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
     <script>
         // Init TWA
         Telegram.WebApp.ready();
@@ -165,29 +156,13 @@
 
         // Function to open QR scanner
         function openQRScanner() {
-            const qrScannerElement = document.getElementById('qr-reader');
-            qrScannerElement.style.display = 'block';
-            const html5QrCode = new Html5Qrcode("qr-reader");
-
-            html5QrCode.start(
-                { facingMode: "environment" },
-                {
-                    fps: 10,
-                    qrbox: { width: 250, height: 250 }
-                },
-                qrCodeMessage => {
-                    Telegram.WebApp.showAlert(`QR Code scanned: ${qrCodeMessage}`);
-                    html5QrCode.stop().then(() => {
-                        qrScannerElement.style.display = 'none';
-                    }).catch(err => {
-                        console.error('Failed to stop QR code scanner', err);
-                    });
-                },
-                errorMessage => {
-                    console.warn('QR Code no longer in front of camera.', errorMessage);
+            Telegram.WebApp.scanQrPopup({
+                text: 'Scan QR Code',
+                onResult: (result) => {
+                    Telegram.WebApp.showAlert(`QR Code scanned: ${result}`);
                 }
-            ).catch(err => {
-                console.error('Unable to start scanning.', err);
+            }).catch((error) => {
+                Telegram.WebApp.showAlert(`Error: ${error}`);
             });
         }
     </script>
