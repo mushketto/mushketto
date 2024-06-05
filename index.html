@@ -42,8 +42,15 @@
 
         Telegram.WebApp.MainButton.disable();
 
+        // Show main button
         Telegram.WebApp.MainButton.setParams({
-            is_visible: true, text: 'Назва', color: 'secondary_bg_color'
+            is_visible: true
+        });
+        Telegram.WebApp.MainButton.setParams({
+            color: 'secondary_bg_color'
+        });
+        Telegram.WebApp.MainButton.setParams({
+            text: 'Назва'
         });
         Telegram.WebApp.MainButton.show();
 
