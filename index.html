@@ -161,7 +161,13 @@
                     return true;
                 }
             })
-            Telegram.WebApp.onEvent(qrTextReceived)
+            Telegram.WebApp.onEvent('qrTextReceived', (result) => {
+            if (result) {
+                Telegram.WebApp.closeScanQrPopup();
+            }
+        });
+        
+
         }
     </script>
 
