@@ -27,7 +27,6 @@
 
 <body>
     <main>
-        <h1>Buttons</h1>
         <button onclick="openQRScanner();">Відкрити QR-Сканер</button>
     </main>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -43,15 +42,8 @@
 
         Telegram.WebApp.MainButton.disable();
 
-        // Show main button
         Telegram.WebApp.MainButton.setParams({
-            is_visible: true
-        });
-        Telegram.WebApp.MainButton.setParams({
-            color: '#ffffff'
-        });
-        Telegram.WebApp.MainButton.setParams({
-            text: 'Назва'
+            is_visible: true, text: 'Назва', color: 'secondary_bg_color'
         });
         Telegram.WebApp.MainButton.show();
 
