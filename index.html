@@ -160,10 +160,9 @@
                 text: 'Scan QR Code',
                 onResult: (result) => {
                     Telegram.WebApp.showAlert(`QR Code scanned: ${result}`);
+                    Telegram.WebApp.closeScanQrPopup()
                 }
-            }).catch((error) => {
-                Telegram.WebApp.showAlert(`Error: ${error}`);
-            });
+            })
         }
     </script>
 
