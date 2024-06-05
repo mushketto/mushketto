@@ -7,8 +7,9 @@
     <title>Telegram Mini Apps Vanilla JS Sample App</title>
     <style>
         body {
+            --bg-color: var(--tg-theme-bg-color);
             font: 12px/18px "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, Verdana, sans-serif;
-            background-color: #252525;
+            background-color: var(--bg-color);
             color: var(--tg-theme-text-color);
             margin: 48px 24px;
             padding: 0;
@@ -16,11 +17,8 @@
             height: 100vh;
             overflow: hidden;
         }
-        button {
-            color: #FFFFFF;
-            background-color: #252525;
 
-        }
+
         a {
             color: var(--tg-theme-link-color);
         }
@@ -43,12 +41,14 @@
             document.documentElement.className = Telegram.WebApp.colorScheme;
         });
 
+        Telegram.WebApp.MainButton.enable();
+
         // Show main button
         Telegram.WebApp.MainButton.setParams({
             is_visible: true
         });
         Telegram.WebApp.MainButton.setParams({
-            color: '#0c0c0c'
+            color: bg_color
         });
         Telegram.WebApp.MainButton.setParams({
             text: 'Назва'
