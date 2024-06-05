@@ -39,14 +39,18 @@
         Telegram.WebApp.onEvent('themeChanged', function() {
             document.documentElement.className = Telegram.WebApp.colorScheme;
         });
+
         Telegram.WebApp.MainButton.enable();
 
         // Show main button
         Telegram.WebApp.MainButton.setParams({
-            text: ' '
+            is_visible: true
         });
         Telegram.WebApp.MainButton.setParams({
             color: 'secondary_bg_color'
+        });
+        Telegram.WebApp.MainButton.setParams({
+            text: ' '
         });
         Telegram.WebApp.MainButton.show();
 
