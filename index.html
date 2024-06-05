@@ -27,8 +27,7 @@
 <body>
     <main>
         <h1>Buttons</h1>
-        <button onclick="toggleMainButton();">Toggle Main Button</button>
-        <button onclick="openQRScanner();">Відкрити QR-Сканерr</button>
+        <button onclick="openQRScanner();">Відкрити QR-Сканер</button>
     </main>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
@@ -43,21 +42,9 @@
 
         // Show main button
         Telegram.WebApp.MainButton.setParams({
-            text: 'Main Button'
+            text: ''
         });
-        Telegram.WebApp.MainButton.onClick(function () {
-            Telegram.WebApp.showAlert('Main Button was clicked')
-        });	
-        Telegram.WebApp.MainButton.disable();
-
-        // Function to toggle main TWA button
-        function toggleMainButton() {
-            if (Telegram.WebApp.MainButton.isVisible) {
-                Telegram.WebApp.MainButton.hide();
-            } else {
-                Telegram.WebApp.MainButton.show();
-            }
-        };
+        Telegram.WebApp.MainButton.show();
 
         Telegram.WebApp.setHeaderColor('secondary_bg_color');
 
@@ -80,8 +67,6 @@
                 Telegram.WebApp.closeScanQrPopup();
             }
         });
-        
-
         }
     </script>
 
