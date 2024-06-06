@@ -16,18 +16,31 @@
             font: 12px/18px "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, Verdana, sans-serif;
             background: #1c1d32;
             color: var(--tg-theme-text-color);
-            margin: 48px 24px;
             padding: 0;
             color-scheme: var(--tg-color-scheme);
             height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             overflow: hidden;
         }
         
-        .container {
+        .top-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 150vh;
+            margin-top: 20px;
+        }
+
+        .bottom-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow-y: auto;
+            max-height: 50vh;
+            padding: 10px 0;
+            width: 100%;
         }
 
         a {
@@ -40,16 +53,39 @@
         .btn {
             text-decoration: none;
             border: 1px solid rgb(146, 148, 248);
-            position: relative;
-            overflow: hidden;
+            margin: 5px 0;
+            width: 80%;
+            text-align: center;
+        }
+
+        .history-container {
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            max-height: 50vh;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+            width: 100%;
+        }
+
+        .history-item {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            color: #f4f4f4;
         }
     </style>
 </head>
 
 <body>
     <main>
-        <div class="container">
+        <div class="top-container">
             <a class="btn" onclick="openQRScanner()">Відкрити QR-Сканер</a>
+        </div>
+        <div class="bottom-container">
+            <!-- This container will display the history of scanned QR codes -->
+            <div class="history-container" id="history-container">
+                <!-- History items will be appended here -->
+            </div>
         </div>
     </main>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -58,6 +94,7 @@
         Telegram.WebApp.ready();
 
         Telegram.WebApp.expand();
+
         // Event occurs whenever theme settings are changed in the user's Telegram app (including switching to night mode).
         Telegram.WebApp.onEvent('themeChanged', function() {
             document.documentElement.className = Telegram.WebApp.colorScheme;
@@ -79,26 +116,65 @@
 
         Telegram.WebApp.setHeaderColor('secondary_bg_color');
 
-
         Telegram.WebApp.onEvent('themeChanged', function() {
             document.body.setAttribute('style', '--bg-color:' + Telegram.WebApp.backgroundColor);
         });
 
-        // Function to open QR scanner
+        // Function to open QR scanner and save result
         function openQRScanner() {
             Telegram.WebApp.showScanQrPopup({
                 text: 'Scan QR Code',
                 onResult: (result) => {
-                    Telegram.WebApp.showAlert(`QR Code scanned: ${result}`);
+                    saveQrResult(result);
                     return true;
                 }
-            })
+            });
+
             Telegram.WebApp.onEvent('qrTextReceived', (result) => {
-            if (result) {
-                Telegram.WebApp.closeScanQrPopup();
-            }
-        });
+                if (result) {
+                    Telegram.WebApp.closeScanQrPopup();
+                }
+            });
         }
+
+        // Save QR result to cloud storage and update history
+        function saveQrResult(result) {
+            const key = `qr_${Date.now()}`;
+            Telegram.WebApp.storage.setItem(key, result, (err, success) => {
+                if (err) {
+                    console.error('Error saving QR result:', err);
+                } else if (success) {
+                    updateHistory();
+                }
+            });
+        }
+
+        // Update history display
+        function updateHistory() {
+            const historyContainer = document.getElementById('history-container');
+            historyContainer.innerHTML = ''; // Clear previous history
+            Telegram.WebApp.storage.getKeys((err, keys) => {
+                if (err) {
+                    console.error('Error getting keys:', err);
+                } else {
+                    keys.forEach(key => {
+                        Telegram.WebApp.storage.getItem(key, (err, value) => {
+                            if (err) {
+                                console.error('Error getting item:', err);
+                            } else {
+                                const historyItem = document.createElement('div');
+                                historyItem.className = 'history-item';
+                                historyItem.textContent = `QR Code: ${value}`;
+                                historyContainer.appendChild(historyItem);
+                            }
+                        });
+                    });
+                }
+            });
+        }
+
+        // Initialize history on page load
+        document.addEventListener('DOMContentLoaded', updateHistory);
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
