@@ -70,7 +70,7 @@
 
         .history-item {
             padding: 10px;
-            border-bottom: 1px solid #ccc;
+            border-bottom: 1px solid rgb(146, 148, 248);
             color: #f4f4f4;
         }
     </style>
@@ -163,6 +163,7 @@
                                 console.error('Error getting item:', err);
                             } else {
                                 const historyItem = document.createElement('div');
+                                console.error('not found:', err);
                                 historyItem.className = 'history-item';
                                 historyItem.textContent = `QR Code: ${value}`;
                                 historyContainer.appendChild(historyItem);
