@@ -89,7 +89,28 @@
         </div>
     </main>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
     <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDvM00UOR58dhEYUnygb0iTuykeGL-uCi0",
+            authDomain: "mini-apps-9f87a.firebaseapp.com",
+            databaseURL: "https://mini-apps-9f87a-default-rtdb.firebaseio.com",
+            projectId: "mini-apps-9f87a",
+            storageBucket: "mini-apps-9f87a.appspot.com",
+            messagingSenderId: "465758969756",
+            appId: "1:465758969756:web:daed11b8eb637da550b259"
+         };
+
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Initialize Firestore
+        const db = firebase.firestore();
+
         // Init TWA
         Telegram.WebApp.ready();
 
@@ -120,6 +141,29 @@
             document.body.setAttribute('style', '--bg-color:' + Telegram.WebApp.backgroundColor);
         });
 
+        // Function to authenticate user with Telegram
+        function authenticateWithTelegram() {
+            const tgUser = Telegram.WebApp.initDataUnsafe.user;
+            if (tgUser) {
+                const userId = tgUser.id.toString();
+                const userName = tgUser.username || tgUser.first_name || 'Anonymous';
+                // Sign in or sign up the user
+                firebase.auth().signInAnonymously().then(() => {
+                    // Store user data in Firestore
+                    db.collection('users').doc(userId).set({
+                        id: userId,
+                        name: userName,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    }, { merge: true }).then(() => {
+                        console.log('User authenticated and data stored');
+                        updateHistory(userId);
+                    });
+                }).catch((error) => {
+                    console.error('Error signing in:', error);
+                });
+            }
+        }
+
         // Function to open QR scanner and save result
         function openQRScanner() {
             Telegram.WebApp.showScanQrPopup({
@@ -137,45 +181,42 @@
             });
         }
 
-        // Save QR result to cloud storage and update history
+        // Function to save QR result to Firestore
         function saveQrResult(result) {
-            const key = `qr_${Date.now()}`;
-            Telegram.WebApp.storage.setItem(key, result, (err, success) => {
-                if (err) {
-                    console.error('Error saving QR result:', err);
-                } else if (success) {
-                    updateHistory();
-                }
-            });
+            const tgUser = Telegram.WebApp.initDataUnsafe.user;
+            if (tgUser) {
+                const userId = tgUser.id.toString();
+                db.collection('users').doc(userId).collection('scans').add({
+                    result: result,
+                    scannedAt: firebase.firestore.FieldValue.serverTimestamp()
+                }).then(() => {
+                    console.log('QR result saved');
+                    updateHistory(userId);
+                }).catch((error) => {
+                    console.error('Error saving QR result:', error);
+                });
+            }
         }
 
-        // Update history display
-        function updateHistory() {
+        // Function to update history display
+        function updateHistory(userId) {
             const historyContainer = document.getElementById('history-container');
             historyContainer.innerHTML = ''; // Clear previous history
-            Telegram.WebApp.storage.getKeys((err, keys) => {
-                if (err) {
-                    console.error('Error getting keys:', err);
-                } else {
-                    keys.forEach(key => {
-                        Telegram.WebApp.storage.getItem(key, (err, value) => {
-                            if (err) {
-                                console.error('Error getting item:', err);
-                            } else {
-                                const historyItem = document.createElement('div');
-                                console.error('not found:', err);
-                                historyItem.className = 'history-item';
-                                historyItem.textContent = `QR Code: ${value}`;
-                                historyContainer.appendChild(historyItem);
-                            }
-                        });
+            db.collection('users').doc(userId).collection('scans').orderBy('scannedAt', 'desc').get()
+                .then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        const historyItem = document.createElement('div');
+                        historyItem.className = 'history-item';
+                        historyItem.textContent = `QR Code: ${doc.data().result}`;
+                        historyContainer.appendChild(historyItem);
                     });
-                }
-            });
+                }).catch((error) => {
+                    console.error('Error getting history:', error);
+                });
         }
 
         // Initialize history on page load
-        document.addEventListener('DOMContentLoaded', updateHistory);
+        document.addEventListener('DOMContentLoaded', authenticateWithTelegram);
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
