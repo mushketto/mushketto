@@ -125,6 +125,40 @@
             document.body.setAttribute('style', '--bg-color:' + Telegram.WebApp.backgroundColor);
         });
 
+        function saveQrResult(result) {
+                const qrData = {
+                    text: result,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                db.collection('users').doc(userId).collection('qrHistory').add(qrData)
+                    .then(() => {
+                        console.log('QR код успешно сохранен');
+                    })
+                    .catch((error) => {
+                        console.error('Ошибка при сохранении QR кода: ', error);
+                    });
+            }
+
+            // Функция для отображения истории
+            function showHistory() {
+                const historyContainer = document.getElementById('history-container');
+                historyContainer.innerHTML = '';
+
+                db.collection('users').doc(userId).collection('qrHistory').orderBy('timestamp', 'desc').get()
+                    .then((querySnapshot) => {
+                        querySnapshot.forEach((doc) => {
+                            const historyItem = document.createElement('div');
+                            historyItem.className = 'history-item';
+                            historyItem.textContent = `${doc.data().text} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
+                            historyContainer.appendChild(historyItem);
+                        });
+                    })
+                    .catch((error) => {
+                        console.error('Ошибка при получении истории QR: ', error);
+                    });
+            }
+
         // Функция для открытия QR-сканера и сохранения результата
         function openQRScanner() {
             Telegram.WebApp.showScanQrPopup({
@@ -165,40 +199,6 @@
             const db = firebaseApp.firestore();
             const auth = firebaseApp.auth();
 
-            // Функция для сохранения результата QR в Firestore
-            function saveQrResult(result) {
-                const qrData = {
-                    text: result,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                };
-
-                db.collection('users').doc(userId).collection('qrHistory').add(qrData)
-                    .then(() => {
-                        console.log('QR код успешно сохранен');
-                    })
-                    .catch((error) => {
-                        console.error('Ошибка при сохранении QR кода: ', error);
-                    });
-            }
-
-            // Функция для отображения истории
-            function showHistory() {
-                const historyContainer = document.getElementById('history-container');
-                historyContainer.innerHTML = '';
-
-                db.collection('users').doc(userId).collection('qrHistory').orderBy('timestamp', 'desc').get()
-                    .then((querySnapshot) => {
-                        querySnapshot.forEach((doc) => {
-                            const historyItem = document.createElement('div');
-                            historyItem.className = 'history-item';
-                            historyItem.textContent = `${doc.data().text} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
-                            historyContainer.appendChild(historyItem);
-                        });
-                    })
-                    .catch((error) => {
-                        console.error('Ошибка при получении истории QR: ', error);
-                    });
-            }
         }
     </script>
 
