@@ -102,7 +102,7 @@
     <script>
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
+        
         const firebaseConfig = {
             apiKey: "AIzaSyDvM00UOR58dhEYUnygb0iTuykeGL-uCi0",
             authDomain: "mini-apps-9f87a.firebaseapp.com",
@@ -147,7 +147,7 @@
         });
 
         // Функция для открытия QR-сканера и сохранения результата
-        window.openQRScanner = function() {
+        function openQRScanner() {
             Telegram.WebApp.showScanQrPopup({
                 text: 'Scan QR Code',
                 onResult: (result) => {
@@ -180,8 +180,8 @@
                 });
         }
 
-        
-        window.showHistory = function() {
+        // Функция для отображения истории
+        function showHistory() {
             firebase.initializeApp(firebaseConfig);
             const historyContainer = document.getElementById('history-container');
             historyContainer.innerHTML = '';
