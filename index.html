@@ -96,12 +96,13 @@
         </div>
     </main>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
     <script>
-
         // Инициализация TWA
         Telegram.WebApp.ready();
         Telegram.WebApp.expand();
-
 
         // Событие при изменении темы в Telegram
         Telegram.WebApp.onEvent('themeChanged', function() {
@@ -140,59 +141,67 @@
                 }
             });
         }
-        const userId = Telegram.WebApp.initDataUnsafe.user.id; 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDvM00UOR58dhEYUnygb0iTuykeGL-uCi0",
-            authDomain: "mini-apps-9f87a.firebaseapp.com",
-            databaseURL: "https://mini-apps-9f87a-default-rtdb.firebaseio.com",
-            projectId: "mini-apps-9f87a",
-            storageBucket: "mini-apps-9f87a.appspot.com",
-            messagingSenderId: "465758969756",
-            appId: "1:465758969756:web:daed11b8eb637da550b259"
-        };
 
-        // Инициализация Firestore
-        const firebaseApp = firebase.initializeApp(firebaseConfig);
-        const db = firebaseApp.firestore();
-        const auth = firebaseApp.auth();
+        // Получение userId после загрузки страницы
+        Telegram.WebApp.ready()
+            .then(() => {
+                const userId = Telegram.WebApp.initDataUnsafe.user.id;
+                initializeFirebase(userId); // Инициализация Firebase после получения userId
+            });
 
-        function saveQrResult(result) {
-            const qrData = {
-                text: result,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        function initializeFirebase(userId) {
+            const firebaseConfig = {
+                apiKey: "AIzaSyDvM00UOR58dhEYUnygb0iTuykeGL-uCi0",
+                authDomain: "mini-apps-9f87a.firebaseapp.com",
+                databaseURL: "https://mini-apps-9f87a-default-rtdb.firebaseio.com",
+                projectId: "mini-apps-9f87a",
+                storageBucket: "mini-apps-9f87a.appspot.com",
+                messagingSenderId: "465758969756",
+                appId: "1:465758969756:web:daed11b8eb637da550b259"
             };
 
-            db.collection('users').doc(userId).collection('qrHistory').add(qrData)
-                .then(() => {
-                    console.log('QR код успешно сохранен');
-                })
-                .catch((error) => {
-                    console.error('Ошибка при сохранении QR кода: ', error);
-                });
-        }
+            // Инициализация Firestore
+            const firebaseApp = firebase.initializeApp(firebaseConfig);
+            const db = firebaseApp.firestore();
+            const auth = firebaseApp.auth();
 
-        // Функция для отображения истории
-        function showHistory() {
-            const historyContainer = document.getElementById('history-container');
-            historyContainer.innerHTML = '';
+            // Функция для сохранения результата QR в Firestore
+            function saveQrResult(result) {
+                const qrData = {
+                    text: result,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                };
 
-            db.collection('users').doc(userId).collection('qrHistory').orderBy('timestamp', 'desc').get()
-                .then((querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        const historyItem = document.createElement('div');
-                        historyItem.className = 'history-item';
-                        historyItem.textContent = `${doc.data().text} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
-                        historyContainer.appendChild(historyItem);
+                db.collection('users').doc(userId).collection('qrHistory').add(qrData)
+                    .then(() => {
+                        console.log('QR код успешно сохранен');
+                    })
+                    .catch((error) => {
+                        console.error('Ошибка при сохранении QR кода: ', error);
                     });
-                })
-                .catch((error) => {
-                    console.error('Ошибка при получении истории QR: ', error);
-                });
-        }        
+            }
+
+            // Функция для отображения истории
+            function showHistory() {
+                const historyContainer = document.getElementById('history-container');
+                historyContainer.innerHTML = '';
+
+                db.collection('users').doc(userId).collection('qrHistory').orderBy('timestamp', 'desc').get()
+                    .then((querySnapshot) => {
+                        querySnapshot.forEach((doc) => {
+                            const historyItem = document.createElement('div');
+                            historyItem.className = 'history-item';
+                            historyItem.textContent = `${doc.data().text} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
+                            historyContainer.appendChild(historyItem);
+                        });
+                    })
+                    .catch((error) => {
+                        console.error('Ошибка при получении истории QR: ', error);
+                    });
+            }
+        }
     </script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
