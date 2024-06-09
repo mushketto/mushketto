@@ -166,6 +166,7 @@
 
 
         function saveQrResult(result) {
+            const firebase = initializeApp(firebaseConfig);
             const db = firebase.firestore();
             const qrData = {
                 text: result,
@@ -183,6 +184,7 @@
 
         // Функция для отображения истории
         function showHistory() {
+            const firebase = initializeApp(firebaseConfig);
             const db = firebase.firestore();
             const historyContainer = document.getElementById('history-container');
             historyContainer.innerHTML = '';
