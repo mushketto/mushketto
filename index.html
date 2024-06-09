@@ -159,7 +159,7 @@
         };
 
         // Инициализация Firestore
-        const firebase = initializeApp(firebaseConfig);
+        const firebase = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
         function saveQrResult(result) {
