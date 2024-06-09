@@ -100,22 +100,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
     <script>
-        
-        const firebaseConfig = {
-            apiKey: "AIzaSyDvM00UOR58dhEYUnygb0iTuykeGL-uCi0",
-            authDomain: "mini-apps-9f87a.firebaseapp.com",
-            databaseURL: "https://mini-apps-9f87a-default-rtdb.firebaseio.com",
-            projectId: "mini-apps-9f87a",
-            storageBucket: "mini-apps-9f87a.appspot.com",
-            messagingSenderId: "465758969756",
-            appId: "1:465758969756:web:daed11b8eb637da550b259"
-        };
-
-        // Инициализация Firebase
-        firebase.initializeApp(firebaseConfig);
-
-        // Инициализация Firestore
-        const db = firebase.firestore();
 
         // Инициализация TWA
         Telegram.WebApp.ready();
@@ -160,8 +144,26 @@
                 }
             });
         }
+        
+    </script>
+    <script>
+         const firebaseConfig = {
+            apiKey: "AIzaSyDvM00UOR58dhEYUnygb0iTuykeGL-uCi0",
+            authDomain: "mini-apps-9f87a.firebaseapp.com",
+            databaseURL: "https://mini-apps-9f87a-default-rtdb.firebaseio.com",
+            projectId: "mini-apps-9f87a",
+            storageBucket: "mini-apps-9f87a.appspot.com",
+            messagingSenderId: "465758969756",
+            appId: "1:465758969756:web:daed11b8eb637da550b259"
+        };
 
-        // Функция для сохранения результата QR в Firestore
+        // Инициализация Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Инициализация Firestore
+        const db = firebase.firestore();
+
+
         function saveQrResult(result) {
             firebase.initializeApp(firebaseConfig);
             const qrData = {
