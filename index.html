@@ -102,7 +102,7 @@
         // Add Firebase products that you want to use
         import { getAuth } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js'
         import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js'
-      </script>
+    </script>
     <script>
 
         // Инициализация TWA
@@ -163,10 +163,10 @@
 
         const firebase = initializeApp(firebaseConfig);
         // Инициализация Firestore
-        const db = firebase.firestore();
 
 
         function saveQrResult(result) {
+            const db = firebase.firestore();
             const qrData = {
                 text: result,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
@@ -183,6 +183,7 @@
 
         // Функция для отображения истории
         function showHistory() {
+            const db = firebase.firestore();
             const historyContainer = document.getElementById('history-container');
             historyContainer.innerHTML = '';
 
