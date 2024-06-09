@@ -125,7 +125,8 @@
             document.body.setAttribute('style', '--bg-color:' + Telegram.WebApp.backgroundColor);
         });
 
-        let db; // Определение переменной db в глобальной области видимости
+        let db;
+        let userId; // Определение переменной db в глобальной области видимости
 
         // Функция для сохранения результата QR в Firestore
         function saveQrResult(result) {
