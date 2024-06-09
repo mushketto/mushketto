@@ -167,7 +167,6 @@
 
 
         function saveQrResult(result) {
-            firebase.initializeApp(firebaseConfig);
             const qrData = {
                 text: result,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
@@ -184,7 +183,6 @@
 
         // Функция для отображения истории
         function showHistory() {
-            firebase.initializeApp(firebaseConfig);
             const historyContainer = document.getElementById('history-container');
             historyContainer.innerHTML = '';
 
