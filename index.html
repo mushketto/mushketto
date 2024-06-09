@@ -176,12 +176,6 @@
             });
         }
 
-        // Получение userId после загрузки страницы
-        Telegram.WebApp.ready()
-            .then(() => {
-                const userId = Telegram.WebApp.initDataUnsafe.user.id;
-                initializeFirebase(userId); // Инициализация Firebase после получения userId
-            });
 
         function initializeFirebase(userId) {
             const firebaseConfig = {
@@ -200,6 +194,12 @@
             const auth = firebaseApp.auth();
 
         }
+
+        Telegram.WebApp.ready()
+            .then(() => {
+                const userId = Telegram.WebApp.initDataUnsafe.user.id;
+                initializeFirebase(userId); // Инициализация Firebase после получения userId
+            });
     </script>
 
 
