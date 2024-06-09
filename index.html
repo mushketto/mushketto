@@ -32,6 +32,22 @@
             margin-top: 20px;
         }
 
+        .history-container {
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            max-height: 50vh;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+            width: 100%;
+        }
+
+        .history-item {
+            padding: 10px;
+            border-bottom: 1px solid rgb(146, 148, 248);
+            color: #f4f4f4;
+        }
+
         .bottom-container {
             display: flex;
             justify-content: center;
@@ -71,6 +87,10 @@
         <div class="top-container">
             <a class="btn" onclick="openQRScanner()">Відкрити QR-Сканер</a>
             <a class="btn" onclick="showHistory()">Історія</a>
+        </div>
+        <div class="bottom-container">
+            <div class="history-container" id="history-container">
+            </div>
         </div>
     </main>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
