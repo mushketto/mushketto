@@ -103,12 +103,7 @@
         // Инициализация TWA
         Telegram.WebApp.ready();
         Telegram.WebApp.expand();
-
-        // Событие при изменении темы в Telegram
-        Telegram.WebApp.onEvent('themeChanged', function() {
-            document.documentElement.className = Telegram.WebApp.colorScheme;
-        });
-
+        
         Telegram.WebApp.MainButton.disable();
 
         // Показать основную кнопку
