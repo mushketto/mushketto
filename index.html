@@ -142,6 +142,7 @@
         }
 
         function saveQrResult(result) {
+            console.log('saveQrResult');
             const qrData = {
                 text: result,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
@@ -188,16 +189,14 @@
             Telegram.WebApp.onEvent('qrTextReceived', (result) => {
                 if (result) {
                     Telegram.WebApp.closeScanQrPopup();
-                    console.log("QR polychen");
+                    console.log("QR получен");
                 }
             });
         }
 
         userId = Telegram.WebApp.initDataUnsafe.user.id;
         initializeFirebase(userId);
-        console.log("ready2");
-        console.log("выгыапрщывор");
-        console.log('ready2');
+        console.log("ready3");
         Telegram.WebApp.ready();
 
     </script>
