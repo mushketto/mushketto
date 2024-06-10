@@ -34,16 +34,6 @@
             padding: 15px;
         }
 
-        .history-container {
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            max-height: 50vh;
-            padding: 10px;
-            border-top: 1px solid #ccc;
-            width: 100%;
-        }
-
         .history-item {
             padding: 10px;
             border-bottom: 1px solid rgb(146, 148, 248);
@@ -82,8 +72,8 @@
             left: 0; /* Расположить контейнер слева */
             width: 100%; /* Занимает всю ширину экрана */
             height: 100%; /* Занимает всю высоту экрана */
-            background-color: rgba(0, 0, 0, 0.8); /* Полупрозрачный черный цвет фона */
-            z-index: 9999; /* Поверх всех остальных элементов */
+            background-color: #1c1d32;
+            z-index: 9; /* Поверх всех остальных элементов */
             display: none; /* Спрятать изначально */
         }
 
@@ -99,7 +89,7 @@
         </div>
         <div class="bottom-container" style="display: none;" id="history-container">
             <div class="history-container">
-                <button class="close-btn" onclick="toggleHistory()">Закрити</button>
+                <button class="btn" onclick="toggleHistory()">Закрити</button>
                 <div id="history-items"></div>
         </div>
     </main>
