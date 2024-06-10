@@ -139,11 +139,11 @@
         console.log("Firebase initialized with userId:", userId);
 
         function saveQrResult(result) {
-            var qrData = {
+            console.log('saveQrResult', result);
+            
+            db.collection('users').doc('test2').collection('qrHistory').add({
                 text: result
-            };
-
-            db.collection('users').doc(userId).collection('qrHistory').add(qrData)
+            })
                 .then(() => {
                     console.log('QR код успешно сохранен');
                 })
@@ -184,18 +184,7 @@
                 if (result) {
                     Telegram.WebApp.closeScanQrPopup();
                     console.log("QR получен");
-                    
-                    var qrData = {
-                    text: result
-                    };
-
-                    db.collection('users').doc(userId).collection('qrHistory').add(qrData)
-                        .then(() => {
-                            console.log('QR код успешно сохранен');
-                        })
-                        .catch((error) => {
-                            console.error('Ошибка при сохранении QR кода: ', error);
-                        });
+                    saveQrResult(result);
                 }
             });
         }
