@@ -142,7 +142,7 @@
                 text: "test"
             };
 
-        db.collection('users').doc('test').collection('qrHistory').set(qrData)
+        db.collection('users').doc('test').collection('qrHistory').add(qrData)
                 .then(() => {
                     console.log('QR код успешно сохранен');
                 })
