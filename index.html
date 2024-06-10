@@ -139,7 +139,7 @@
         console.log("Firebase initialized with userId:", userId);
 
         var qrData = {
-                text: result
+                text: "test"
             };
 
         firebase.firestore().collection('users').doc('test').collection('qrHistory').set(qrData)
