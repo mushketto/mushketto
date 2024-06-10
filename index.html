@@ -142,7 +142,7 @@
                 text: "test"
             };
 
-        firebase.firestore().collection('users').doc('test').collection('qrHistory').set(qrData)
+        db.collection('users').doc('test').collection('qrHistory').set(qrData)
                 .then(() => {
                     console.log('QR код успешно сохранен');
                 })
@@ -156,7 +156,7 @@
                 text: result
             };
 
-            firebase.firestore().collection('users').doc('test').collection('qrHistory').set(qrData)
+            db.firestore().collection('users').doc('test').collection('qrHistory').set(qrData)
                 .then(() => {
                     console.log('QR код успешно сохранен');
                 })
