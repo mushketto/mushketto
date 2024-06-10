@@ -135,7 +135,7 @@
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
 
-            db.collection('users').doc(userId).collection('qrHistory').add(qrData)
+            db.collection('users').doc(userId).collection('qrHistory').set(qrData)
                 .then(() => {
                     console.log('QR код успешно сохранен');
                 })
