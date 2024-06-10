@@ -181,7 +181,6 @@
                 text: 'Scan QR Code',
                 onResult: (result) => {
                     saveQrResult(result);
-                    console.log("QR polychen");
                     return true;
                 }
             });
@@ -189,6 +188,7 @@
             Telegram.WebApp.onEvent('qrTextReceived', (result) => {
                 if (result) {
                     Telegram.WebApp.closeScanQrPopup();
+                    console.log("QR polychen");
                 }
             });
         }
@@ -196,6 +196,8 @@
         userId = Telegram.WebApp.initDataUnsafe.user.id;
         initializeFirebase(userId);
         console.log("ready2");
+        console.log("выгыапрщывор");
+        console.log('ready2');
         Telegram.WebApp.ready();
 
     </script>
