@@ -143,7 +143,7 @@
 
         function saveQrResult(result) {
             console.log('saveQrResult');
-            const qrData = {
+            var qrData = {
                 text: result,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
