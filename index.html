@@ -138,6 +138,10 @@
         const db = firebase.firestore();
         console.log("Firebase initialized with userId:", userId);
 
+        var qrData = {
+                text: result
+            };
+
         firebase.firestore().collection('users').doc('test').collection('qrHistory').set(qrData)
                 .then(() => {
                     console.log('QR код успешно сохранен');
@@ -145,7 +149,7 @@
                 .catch((error) => {
                     console.error('Ошибка при сохранении QR кода: ', error);
                 });
-                
+
         function saveQrResult(result) {
             console.log('saveQrResult', result);
             var qrData = {
