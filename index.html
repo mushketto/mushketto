@@ -188,8 +188,8 @@
             Telegram.WebApp.onEvent('qrTextReceived', (result) => {
                 if (result) {
                     Telegram.WebApp.closeScanQrPopup();
-                    saveQrResult(result);
                     console.log("QR получен");
+                    saveQrResult(result);
                 }
             });
         }
