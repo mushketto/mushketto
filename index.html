@@ -127,7 +127,6 @@
 
         let db;
         let userId; 
-        console.log(userId);
 
         function saveQrResult(result) {
             const qrData = {
@@ -185,6 +184,7 @@
             .then(() => {
                 const userId = Telegram.WebApp.initDataUnsafe.user.id;
                 initializeFirebase(userId); // Инициализация Firebase после получения userId
+                console.log(userId);
             });
 
         function initializeFirebase(userId) {
