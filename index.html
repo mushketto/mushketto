@@ -126,16 +126,15 @@
         });
 
         let db;
-        let userId; // Определение переменной db в глобальной области видимости
+        let userId; 
 
-        // Функция для сохранения результата QR в Firestore
         function saveQrResult(result) {
             const qrData = {
                 text: result,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
 
-            db.collection('users').doc(userId).collection('qrHistory').set(qrData)
+            db.collection('users').doc('test').collection('qrHistory').set(qrData)
                 .then(() => {
                     console.log('QR код успешно сохранен');
                 })
