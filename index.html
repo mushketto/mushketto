@@ -195,12 +195,12 @@
             });
         }
 
+        userId = Telegram.WebApp.initDataUnsafe.user.id;
+        initializeFirebase(userId);
+        console.log(userId);
+
         // Получение userId после загрузки страницы
-        Telegram.WebApp.ready().then(() => {
-            userId = Telegram.WebApp.initDataUnsafe.user.id;
-            initializeFirebase(userId);
-            console.log(userId);
-        });
+        Telegram.WebApp.ready();
 
     </script>
 </body>
