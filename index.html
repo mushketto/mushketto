@@ -175,13 +175,6 @@
             });
         }
 
-        // Получение userId после загрузки страницы
-        Telegram.WebApp.ready().then(() => {
-            userId = Telegram.WebApp.initDataUnsafe.user.id;
-            initializeFirebase(userId);
-            console.log(userId);
-        });
-
         function initializeFirebase(user) {
             const firebaseConfig = {
                 apiKey: "AIzaSyDvM00UOR58dhEYUnygb0iTuykeGL-uCi0",
@@ -198,6 +191,13 @@
             db = firebaseApp.firestore();
             userId = user;
         }
+
+        // Получение userId после загрузки страницы
+        Telegram.WebApp.ready().then(() => {
+            userId = Telegram.WebApp.initDataUnsafe.user.id;
+            initializeFirebase(userId);
+            console.log(userId);
+        });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
