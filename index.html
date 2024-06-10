@@ -140,8 +140,8 @@
 
         function saveQrResult(result) {
             console.log('saveQrResult', result);
-
-            db.collection('users').doc(userId).collection('qrHistory').add({
+            user = userId;
+            db.collection('users').doc(user).collection('qrHistory').add({
                 text: result
             })
                 .then(() => {
