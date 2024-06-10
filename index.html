@@ -118,8 +118,8 @@
         Telegram.WebApp.onEvent('themeChanged', function() {
             document.body.setAttribute('style', '--bg-color:' + Telegram.WebApp.backgroundColor);
         });
-
-        let userId; 
+        
+        userId = Telegram.WebApp.initDataUnsafe.user.id;
 
         const firebaseConfig = {
             apiKey: "AIzaSyDvM00UOR58dhEYUnygb0iTuykeGL-uCi0",
@@ -190,7 +190,6 @@
         }
         function webappready(){
             Telegram.WebApp.ready;
-            userId = Telegram.WebApp.initDataUnsafe.user.id;
             console.log("Telegram WebApp ready, userId:", userId);
         };
 
