@@ -139,7 +139,6 @@
         console.log("Firebase initialized with userId:", userId);
 
         function saveQrResult(result) {
-            console.log('saveQrResult', result);
             var qrData = {
                 text: result
             };
@@ -151,6 +150,7 @@
                 .catch((error) => {
                     console.error('Ошибка при сохранении QR кода: ', error);
                 });
+            console.log('saveQrResult', result);
         }
 
         // Функция для отображения истории
