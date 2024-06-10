@@ -118,7 +118,7 @@
         Telegram.WebApp.onEvent('themeChanged', function() {
             document.body.setAttribute('style', '--bg-color:' + Telegram.WebApp.backgroundColor);
         });
-        
+
         userId = Telegram.WebApp.initDataUnsafe.user.id;
 
         const firebaseConfig = {
@@ -132,8 +132,8 @@
         };
 
             // Инициализация Firestore
-        const firebaseApp = firebase.initializeApp(firebaseConfig);
-        const db = firebaseApp.firestore();
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
         console.log("Firebase initialized with userId:", userId);
 
         function saveQrResult(result) {
