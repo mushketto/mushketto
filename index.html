@@ -101,9 +101,11 @@
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
     <script>
         eruda.init();
-        import firebase from "firebase/app";
+        import firebase from "firebase/compat/app";
         import "firebase/firestore";
+        
         Telegram.WebApp.expand();
+    
         
         Telegram.WebApp.MainButton.disable();
 
