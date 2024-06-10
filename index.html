@@ -138,25 +138,13 @@
         const db = firebase.firestore();
         console.log("Firebase initialized with userId:", userId);
 
-        var qrData = {
-                text: "test"
-            };
-
-        db.collection('users').doc('test').collection('qrHistory').add(qrData)
-                .then(() => {
-                    console.log('QR код успешно сохранен');
-                })
-                .catch((error) => {
-                    console.error('Ошибка при сохранении QR кода: ', error);
-                });
-
         function saveQrResult(result) {
             console.log('saveQrResult', result);
             var qrData = {
                 text: result
             };
 
-            db.firestore().collection('users').doc('test').collection('qrHistory').set(qrData)
+            db.collection('users').doc(userId).collection('qrHistory').add(qrData)
                 .then(() => {
                     console.log('QR код успешно сохранен');
                 })
