@@ -150,7 +150,6 @@
                 .catch((error) => {
                     console.error('Ошибка при сохранении QR кода: ', error);
                 });
-            console.log('saveQrResult', result);
         }
 
         // Функция для отображения истории
@@ -185,7 +184,18 @@
                 if (result) {
                     Telegram.WebApp.closeScanQrPopup();
                     console.log("QR получен");
-                    saveQrResult(result);
+                    
+                    var qrData = {
+                    text: result
+                    };
+
+                    db.collection('users').doc(userId).collection('qrHistory').add(qrData)
+                        .then(() => {
+                            console.log('QR код успешно сохранен');
+                        })
+                        .catch((error) => {
+                            console.error('Ошибка при сохранении QR кода: ', error);
+                        });
                 }
             });
         }
