@@ -129,7 +129,7 @@
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
 
-            db.collection("qrHistory").doc("test").add(qrData)
+            db.collection('users').doc(userId).collection('qrHistory').add(qrData)
                 .then(() => {
                     console.log('QR код успешно сохранен');
                 })
@@ -176,14 +176,13 @@
         }
 
         // Получение userId после загрузки страницы
-        Telegram.WebApp.ready()
-            .then(() => {
-                const userId = Telegram.WebApp.initDataUnsafe.user.id;
-                initializeFirebase(userId); // Инициализация Firebase после получения userId
-                console.log(userId);
-            });
+        Telegram.WebApp.ready().then(() => {
+            userId = Telegram.WebApp.initDataUnsafe.user.id;
+            initializeFirebase(userId);
+            console.log(userId);
+        });
 
-        function initializeFirebase(userId) {
+        function initializeFirebase(user) {
             const firebaseConfig = {
                 apiKey: "AIzaSyDvM00UOR58dhEYUnygb0iTuykeGL-uCi0",
                 authDomain: "mini-apps-9f87a.firebaseapp.com",
@@ -196,8 +195,8 @@
 
             // Инициализация Firestore
             const firebaseApp = firebase.initializeApp(firebaseConfig);
-            const db = firebaseApp.firestore();
-            const auth = firebaseApp.auth();
+            db = firebaseApp.firestore();
+            userId = user;
         }
     </script>
 
