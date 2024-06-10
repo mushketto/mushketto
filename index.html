@@ -123,6 +123,24 @@
         let db;
         let userId; 
 
+        function initializeFirebase(user) {
+            const firebaseConfig = {
+                apiKey: "AIzaSyDvM00UOR58dhEYUnygb0iTuykeGL-uCi0",
+                authDomain: "mini-apps-9f87a.firebaseapp.com",
+                databaseURL: "https://mini-apps-9f87a-default-rtdb.firebaseio.com",
+                projectId: "mini-apps-9f87a",
+                storageBucket: "mini-apps-9f87a.appspot.com",
+                messagingSenderId: "465758969756",
+                appId: "1:465758969756:web:daed11b8eb637da550b259"
+            };
+
+            // Инициализация Firestore
+            const firebaseApp = firebase.initializeApp(firebaseConfig);
+            db = firebaseApp.firestore();
+            userId = user;
+            console.log("Firebase initialized with userId:", userId);
+        }
+
         function saveQrResult(result) {
             const qrData = {
                 text: result,
@@ -173,23 +191,6 @@
                     Telegram.WebApp.closeScanQrPopup();
                 }
             });
-        }
-
-        function initializeFirebase(user) {
-            const firebaseConfig = {
-                apiKey: "AIzaSyDvM00UOR58dhEYUnygb0iTuykeGL-uCi0",
-                authDomain: "mini-apps-9f87a.firebaseapp.com",
-                databaseURL: "https://mini-apps-9f87a-default-rtdb.firebaseio.com",
-                projectId: "mini-apps-9f87a",
-                storageBucket: "mini-apps-9f87a.appspot.com",
-                messagingSenderId: "465758969756",
-                appId: "1:465758969756:web:daed11b8eb637da550b259"
-            };
-
-            // Инициализация Firestore
-            const firebaseApp = firebase.initializeApp(firebaseConfig);
-            db = firebaseApp.firestore();
-            userId = user;
         }
 
         // Получение userId после загрузки страницы
