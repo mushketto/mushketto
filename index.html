@@ -33,7 +33,6 @@
             margin-top: 20px;
         }
 
-
         .history-container {
             display: flex;
             flex-direction: column;
@@ -148,14 +147,13 @@
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
 
-            db.collection('qrHistory').doc(userId).set(qrData)
+            db.collection('users').doc(userId).collection('qrHistory').add(qrData)
                 .then(() => {
                     console.log('QR код успешно сохранен');
                 })
                 .catch((error) => {
                     console.error('Ошибка при сохранении QR кода: ', error);
                 });
-                console.error('Ошибка при сохранении QR кода: ', error);
         }
 
         // Функция для отображения истории
@@ -195,10 +193,11 @@
             });
         }
 
-        userId = Telegram.WebApp.initDataUnsafe.user.id;
-        initializeFirebase(userId);
-        console.log("ready4");
-        Telegram.WebApp.ready();
+        Telegram.WebApp.ready().then(() => {
+            userId = Telegram.WebApp.initDataUnsafe.user.id;
+            initializeFirebase(userId);
+            console.log("Telegram WebApp ready, userId:", userId);
+        });
 
     </script>
 </body>
