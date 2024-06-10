@@ -193,11 +193,12 @@
             });
         }
 
-        Telegram.WebApp.ready().then(() => {
+        Telegram.WebApp.ready(function() {
             userId = Telegram.WebApp.initDataUnsafe.user.id;
             initializeFirebase(userId);
             console.log("Telegram WebApp ready, userId:", userId);
         });
+
 
     </script>
 </body>
