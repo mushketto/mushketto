@@ -137,13 +137,12 @@
         console.log("Firebase initialized with userId:", userId);
 
         function saveQrResult(result) {
-            console.log('saveQrResult');
+            console.log('saveQrResult', result);
             var qrData = {
-                text: result,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                text: result
             };
 
-            db.collection('users').doc(userId).collection('qrHistory').add(qrData)
+            db.collection('users').doc('test').collection('qrHistory').set(qrData)
                 .then(() => {
                     console.log('QR код успешно сохранен');
                 })
