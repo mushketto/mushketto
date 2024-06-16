@@ -89,6 +89,16 @@
             display: none; 
         }
 
+        .history-item-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 3px;
+            padding-left: 15px;
+            padding-right: 15px;
+            margin-bottom: 3px;
+        }
 
     </style>
 </head>
@@ -104,7 +114,9 @@
                 <div class="btn1">
                     <a class="btn" onclick="toggleHistory()">Закрити</a>
                 </div>
-                <div id="history-items"></div>
+                <div class="history-item-container">
+                    <div id="history-items"></div>
+                </div>
         </div>
     </main>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
