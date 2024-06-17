@@ -193,75 +193,23 @@
         }
 
         // Функция для отображения истории
-       // Массив подколлекций, которые нужно проверить
-        const subcollectionsNames = ['subcollection1', 'subcollection2', 'subcollection3'];
-
-        // Получить все продукты из коллекции Product
-        function fetchProducts() {
-            return db.collection('Product').get();
-        }
-
-        // Получить все документы из подколлекций для данного продукта
-        function fetchSubcollectionDocuments(productId, subcollectionName) {
-            return db.collection('Product').doc(productId).collection(subcollectionName).get();
-        }
-
-        // Сравнить строки QR в подколлекциях с qrHistory пользователя
-        function fetchAndCompareQR(productId, productName) {
-            const promises = subcollectionsNames.map((subcollectionName) => {
-                return fetchSubcollectionDocuments(productId, subcollectionName)
-                    .then((qrSnapshot) => {
-                        const subPromises = [];
-                        qrSnapshot.forEach((qrDoc) => {
-                            const qrText = qrDoc.data().QR;
-
-                            subPromises.push(
-                                db.collection('users').doc(userId).collection('qrHistory')
-                                    .where("text", "==", qrText).get()
-                                    .then((userQrSnapshot) => {
-                                        if (!userQrSnapshot.empty) {
-                                            const historyItem = document.createElement('div');
-                                            historyItem.className = 'history-item';
-                                            historyItem.textContent = productName;
-                                            historyItem.onclick = () => showFullInfo(productName, qrText);
-                                            document.getElementById('history-items').appendChild(historyItem);
-                                        }
-                                    })
-                                    .catch((error) => {
-                                        console.error('Ошибка при получении истории QR: ', error);
-                                    })
-                            );
-                        });
-                        return Promise.all(subPromises);
-                    });
-            });
-            return Promise.all(promises);
-        }
-
-        // Основная функция для отображения истории
         function showHistory() {
-            const historyContainer = document.getElementById('history-items');
-            historyContainer.innerHTML = '';
+        const historyContainer = document.getElementById('history-items'); // Изменено на 'history-items'
+        historyContainer.innerHTML = '';
 
-            fetchProducts()
-                .then((querySnapshot) => {
-                    const promises = [];
-                    querySnapshot.forEach((doc) => {
-                        const productId = doc.id;
-                        const productName = doc.data().name;
-
-                        promises.push(fetchAndCompareQR(productId, productName));
-                    });
-                    return Promise.all(promises);
-                })
-                .catch((error) => {
-                    console.error('Ошибка при получении продуктов: ', error);
+        user = userid = "'" + userId + "'";
+        db.collection('users').doc(user).collection('qrHistory').orderBy('timestamp', 'desc').get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    historyItem.textContent = `${doc.data().text.data} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
+                    historyContainer.appendChild(historyItem);
                 });
-        }
-
-        // Функция для отображения полной информации
-        function showFullInfo(productName, qrText) {
-            alert(`Product Name: ${productName}\nQR Text: ${qrText}`);
+            })
+            .catch((error) => {
+                console.error('Ошибка при получении истории QR: ', error);
+            });
         }
 
 
