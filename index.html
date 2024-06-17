@@ -252,7 +252,8 @@
                     Telegram.WebApp.closeScanQrPopup();
                     console.log("QR получен");
                     saveQrResult(result);
-                    searchProductInDatabase(result);
+                    const scannedQR = result.data;
+                    searchProductInDatabase(scannedQR);
                     Telegram.WebApp.offEvent('qrTextReceived', handleQrTextReceived); // Удаляем обработчик события
                 }
             };
