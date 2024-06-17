@@ -208,7 +208,7 @@
             return subcollection.get().then((qrSnapshot) => {
                 const subPromises = [];
                 qrSnapshot.forEach((qrDoc) => {
-                    const qrText = qrDoc.data().text;
+                    const qrText = qrDoc.data().QR;
 
                     subPromises.push(
                         db.collection('users').doc("'" + userId + "'").collection('qrHistory')
