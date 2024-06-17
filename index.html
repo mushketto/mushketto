@@ -176,7 +176,6 @@
             db.collection('users').doc(user).collection('qrHistory').add(qrData)
                 .then(() => {
                     console.log('QR код успешно сохранен');
-                    searchProductInDatabase(result);
                 })
                 .catch((error) => {
                     console.error('Ошибка при сохранении QR кода: ', error);
@@ -253,6 +252,7 @@
                     Telegram.WebApp.closeScanQrPopup();
                     console.log("QR получен");
                     saveQrResult(result);
+                    searchProductInDatabase(result);
                     Telegram.WebApp.offEvent('qrTextReceived', handleQrTextReceived); // Удаляем обработчик события
                 }
             };
