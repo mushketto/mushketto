@@ -193,19 +193,50 @@
         }
 
         function searchProductInDatabase(scannedQR) {
-            // Здесь предполагается, что структура базы данных имеет коллекции с подколлекциями и документы внутри них
-            db.collection('Product').get()
-                .then((querySnapshot) => {
-                    let found = false;
-                    querySnapshot.forEach((doc) => {
-                        const data = doc.data();
-                        console.log('QR1: ', data.QR);
-                        console.log('QR2: ', scannedQR);
-                        if (data.QR === scannedQR) {
-                            console.log('QR code найден в базе данных Product: ', doc.id, ' => ', data);
-                            found = true;
-                        }
-                    });
+            const productCollectionRef = db.collection('Product'); // Ссылка на корневую коллекцию 'Product'
+
+            // Рекурсивная функция для поиска QR-кода в коллекции и ее подколлекциях
+            function searchInCollection(collectionRef) {
+                return new Promise((resolve, reject) => {
+                    collectionRef.get()
+                        .then((querySnapshot) => {
+                            let found = false; // Флаг для отслеживания, найден ли QR-код в текущей коллекции
+
+                            querySnapshot.forEach((doc) => {
+                                const data = doc.data();
+
+                                // Проверяем, есть ли поле QR в текущем документе и соответствует ли значение отсканированному QR-коду
+                                if (data.hasOwnProperty('QR') && data.QR === scannedQR) {
+                                    console.log('QR code найден в базе данных Product: ', doc.id, ' => ', data);
+                                    found = true; // Устанавливаем флаг в true, если найден
+                                }
+
+                                // Поиск в подколлекциях текущего документа
+                                doc.ref.listCollections().then((subCollections) => {
+                                    subCollections.forEach((subCollection) => {
+                                        // Рекурсивный вызов для каждой подколлекции
+                                        searchInCollection(subCollection).then((subFound) => {
+                                            if (subFound) {
+                                                found = true; // Если QR-код найден в подколлекции, устанавливаем флаг в true
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+
+                            // Если QR-код не найден в текущей коллекции и ее подколлекциях, resolve с false
+                            resolve(found);
+                        })
+                        .catch((error) => {
+                            console.error('Ошибка при поиске QR кода в базе данных Product: ', error);
+                            reject(error); // Ошибка при выполнении запроса
+                        });
+                });
+            }
+
+            // Начинаем поиск с корневой коллекции 'Product'
+            searchInCollection(productCollectionRef)
+                .then((found) => {
                     if (!found) {
                         console.log('QR code не найден в базе данных Product');
                     }
@@ -214,6 +245,7 @@
                     console.error('Ошибка при поиске QR кода в базе данных Product: ', error);
                 });
         }
+
 
 
         // Функция для отображения истории
