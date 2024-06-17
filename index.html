@@ -176,6 +176,7 @@
             db.collection('users').doc(user).collection('qrHistory').add(qrData)
                 .then(() => {
                     console.log('QR код успешно сохранен');
+                    searchProductInDatabase(result);
                 })
                 .catch((error) => {
                     console.error('Ошибка при сохранении QR кода: ', error);
@@ -191,6 +192,28 @@
                 showHistory();
             }
         }
+
+        function searchProductInDatabase(scannedQR) {
+            // Здесь предполагается, что структура базы данных имеет коллекции с подколлекциями и документы внутри них
+            db.collection('Product').get()
+                .then((querySnapshot) => {
+                    let found = false;
+                    querySnapshot.forEach((doc) => {
+                        const data = doc.data();
+                        if (data.QR === scannedQR) {
+                            console.log('QR code найден в базе данных Product: ', doc.id, ' => ', data);
+                            found = true;
+                        }
+                    });
+                    if (!found) {
+                        console.log('QR code не найден в базе данных Product');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Ошибка при поиске QR кода в базе данных Product: ', error);
+                });
+        }
+
 
         // Функция для отображения истории
         function showHistory() {
