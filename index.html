@@ -200,7 +200,7 @@
                     let found = false;
                     querySnapshot.forEach((doc) => {
                         const data = doc.data();
-                        console.log('QR: ', data.QR);
+                        console.log('QR1: ', data.QR);
                         if (data.QR === scannedQR) {
                             console.log('QR code найден в базе данных Product: ', doc.id, ' => ', data);
                             found = true;
