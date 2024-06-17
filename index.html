@@ -193,14 +193,13 @@
         }
 
         // Функция для отображения истории
-        // Получить все продукты из коллекции Product
         function fetchProducts() {
             return db.collection('Product').get();
         }
 
         // Получить все подколлекции для данного документа
         function fetchSubcollections(productId) {
-            return db.collection('Product').doc(productId).listCollections();
+            return db.collection('Product').doc(productId).getCollections();
         }
 
         // Сравнить строки QR в подколлекциях с qrHistory пользователя
@@ -244,7 +243,7 @@
                         const productName = doc.data().name;
 
                         promises.push(
-                            fetchSubcollections(productId)
+                            db.collection('Product').doc(productId).getCollections()
                                 .then((subcollections) => {
                                     const subPromises = [];
                                     subcollections.forEach((subcollection) => {
@@ -259,6 +258,11 @@
                 .catch((error) => {
                     console.error('Ошибка при получении продуктов: ', error);
                 });
+        }
+
+        // Функция для отображения полной информации
+        function showFullInfo(productName, qrText) {
+            alert(`Product Name: ${productName}\nQR Text: ${qrText}`);
         }
 
         // Функция для отображения полной информации
