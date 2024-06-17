@@ -194,23 +194,64 @@
 
         // Функция для отображения истории
         function showHistory() {
-            const historyContainer = document.getElementById('history-items'); // Изменено на 'history-items'
+            const historyContainer = document.getElementById('history-items');
             historyContainer.innerHTML = '';
 
-            user = userid = "'" + userId + "'";
-            db.collection('users').doc(user).collection('qrHistory').orderBy('timestamp', 'desc').get()
+            db.collection('Product').get()
                 .then((querySnapshot) => {
+                    const promises = [];
                     querySnapshot.forEach((doc) => {
-                        const historyItem = document.createElement('div');
-                        historyItem.className = 'history-item';
-                        historyItem.textContent = `${doc.data().text.data} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
-                        historyContainer.appendChild(historyItem);
+                        const productId = doc.id;
+                        const productName = doc.data().name;
+
+                        // Получаем все подколлекции
+                        promises.push(
+                            db.collection('Product').doc(productId).listCollections()
+                                .then((subcollections) => {
+                                    const subPromises = [];
+                                    subcollections.forEach((subcollection) => {
+                                        subPromises.push(
+                                            subcollection.get().then((qrSnapshot) => {
+                                                qrSnapshot.forEach((qrDoc) => {
+                                                    const qrText = qrDoc.data().text;
+
+                                                    // Сравниваем QR текст с данными из коллекции пользователя
+                                                    subPromises.push(
+                                                        db.collection('users').doc("'" + userId + "'").collection('qrHistory')
+                                                            .where("text", "==", qrText).get()
+                                                            .then((userQrSnapshot) => {
+                                                                if (!userQrSnapshot.empty) {
+                                                                    const historyItem = document.createElement('div');
+                                                                    historyItem.className = 'history-item';
+                                                                    historyItem.textContent = productName;
+                                                                    historyItem.onclick = () => showFullInfo(productName, qrText);
+                                                                    historyContainer.appendChild(historyItem);
+                                                                }
+                                                            })
+                                                            .catch((error) => {
+                                                                console.error('Ошибка при получении истории QR: ', error);
+                                                            })
+                                                    );
+                                                });
+                                            })
+                                        );
+                                    });
+                                    return Promise.all(subPromises);
+                                })
+                        );
                     });
+                    return Promise.all(promises);
                 })
                 .catch((error) => {
-                    console.error('Ошибка при получении истории QR: ', error);
+                    console.error('Ошибка при получении продуктов: ', error);
                 });
         }
+
+        // Функция для отображения полной информации
+        function showFullInfo(productName, qrText) {
+            alert(`Product Name: ${productName}\nQR Text: ${qrText}`);
+        }
+
 
         // Функция для открытия QR-сканера и сохранения результата
         function openQRScanner() {
