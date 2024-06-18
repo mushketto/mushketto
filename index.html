@@ -369,8 +369,10 @@
 
                                         var guaranteeElement = item.getElementsByTagName('guarantee')[0];
                                         var guaranteeValue = guaranteeElement ? guaranteeElement.textContent.trim() : null;
-                                        var guaranteeUnit = guaranteeElement.getAttribute('unit') || ''; // Assuming unit attribute is defined
-                                        var guarantee = guaranteeValue !== null ? `${guaranteeValue} ${guaranteeUnit}` : null;
+                                        if (guaranteeValue != null){
+                                            var guaranteeUnit = guaranteeElement.getAttribute('unit') || '';
+                                            var guarantee = guaranteeValue !== null ? `${guaranteeValue} ${guaranteeUnit}` : null;
+                                        };
 
                                         var stock = item.getElementsByTagName('stock')[0]?.textContent.trim() || null;
 
