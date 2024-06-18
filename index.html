@@ -289,7 +289,7 @@
         function showDetail(barcode) {
             const detailContainer = document.getElementById('detail-container');
             const detailContent = document.getElementById('detail-content');
-            detailContainer.style.display = (detailContainer.style.display === 'none') ? 'block' : 'none';
+            detailContainer.style.display = (detailContainer.style.display === 'none') ? 'flex' : 'none';
 
             // Fetch detailed information about the product
             fetchProductDetails(barcode).then((details) => {
@@ -404,7 +404,6 @@
                     console.log("QR получен");
                     saveQrResult(result);
                     const scannedQR = result.data;
-                    toggleHistory();
                     showDetail(scannedQR);
                     Telegram.WebApp.offEvent('qrTextReceived', handleQrTextReceived); // Удаляем обработчик события после получения QR кода
                 }
