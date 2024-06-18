@@ -282,6 +282,8 @@
         }
 
         // Функция для открытия QR-сканера и сохранения результата
+        let qrTextReceivedHandler;
+
         function openQRScanner() {
             Telegram.WebApp.showScanQrPopup({
                 text: 'Scan QR Code',
@@ -296,15 +298,21 @@
                     console.log("QR получен");
                     saveQrResult(result);
                     const scannedQR = result.data;
-                    searchBarcodeInXML(xmlUrl, scannedQR);
-                    console.log("test", result.data);
                     //searchProductInDatabase(scannedQR);
-                    Telegram.WebApp.offEvent('qrTextReceived', handleQrTextReceived); // Удаляем обработчик события
+                    Telegram.WebApp.offEvent('qrTextReceived', handleQrTextReceived); // Удаляем обработчик события после получения QR кода
                 }
             };
 
-            Telegram.WebApp.onEvent('qrTextReceived', handleQrTextReceived);
+            if (qrTextReceivedHandler) {
+                Telegram.WebApp.offEvent('qrTextReceived', qrTextReceivedHandler);
+            }
+
+            qrTextReceivedHandler = handleQrTextReceived;
+            Telegram.WebApp.onEvent('qrTextReceived', qrTextReceivedHandler);
         }
+
+
+
         function webappready(){
             Telegram.WebApp.ready;
             console.log("Telegram WebApp ready, userId:", userId);
