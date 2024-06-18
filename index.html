@@ -283,14 +283,18 @@
                 });
         }
 
-        function showDetail(barcode) {
+        function showProductDetails(details) {
             const detailContainer = document.getElementById('detail-container');
             const detailContent = document.getElementById('detail-content');
 
+            // Установка display в flex для показа контейнера
+            detailContainer.style.display = 'flex';
+
+            // Очистка содержимого перед загрузкой новых данных
             detailContent.innerHTML = '';
 
-            // Fetch detailed information about the product
-            fetchProductDetails(barcode).then((details) => {
+            // Проверка наличия данных о продукте
+            if (details) {
                 detailContent.innerHTML = `<h2>${details.name}</h2>`;
                 if (details.vendor) {
                     detailContent.innerHTML += `<p>Виготовник: ${details.vendor}</p>`;
@@ -307,12 +311,22 @@
                 if (details.stock) {
                     detailContent.innerHTML += `<p>Наявність: ${details.stock}</p>`;
                 }
-                detailContainer.style.display = 'flex';
-                console.log("test");
+            } else {
+                detailContent.innerHTML = '<p>Информация о продукте не найдена</p>';
+            }
+        }
+
+
+        function showDetail(barcode) {
+            fetchProductDetails(barcode).then((details) => {
+                showProductDetails(details);
             }).catch((error) => {
                 console.error('Ошибка при получении подробной информации о товаре: ', error);
+                const detailContent = document.getElementById('detail-content');
+                detailContent.innerHTML = '<p>Ошибка при загрузке информации о продукте</p>';
             });
         }
+
 
         function closeDetail() {
             const detailContainer = document.getElementById('detail-container');
