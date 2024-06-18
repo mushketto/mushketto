@@ -236,7 +236,7 @@
                                 if (barcodeElement) {
                                     var barcodeValue = barcodeElement.textContent.trim();
                                     if (barcodeValue === barcodeToSearch) {
-                                        var nameElement = item.getElementsByTagName('names')[0];
+                                        var nameElement = item.getElementsByTagName('name')[0];
                                         if (nameElement) {
                                             var nameValue = nameElement.textContent.trim();
                                             console.log(`Найден <barcode> (${barcodeValue}) в элементе <name> (${nameValue})`);
