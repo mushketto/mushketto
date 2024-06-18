@@ -297,7 +297,7 @@
                     console.log("QR получен");
                     saveQrResult(result);
                     const scannedQR = result.data;
-                    compareBarcodeWithQRCode(xmlUrl, scannedQR);
+                    searchBarcodeInXML(xmlUrl, scannedQR);
                     //searchProductInDatabase(scannedQR);
                     Telegram.WebApp.offEvent('qrTextReceived', handleQrTextReceived); // Удаляем обработчик события
                 }
