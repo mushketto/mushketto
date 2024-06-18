@@ -299,8 +299,7 @@
                     querySnapshot.forEach((doc) => {
                         const historyItem = document.createElement('div');
                         historyItem.className = 'history-item';
-                        const historyNameValue = historyname(xmlUrl, doc.data().text.data);
-                        historyItem.textContent = `${historyNameValue} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
+                        historyItem.textContent = `${historyname(xmlUrl, doc.data().text.data)} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
                         historyContainer.appendChild(historyItem);
                     });
                 })
