@@ -316,7 +316,7 @@
         }
         function toggleDetail() {
             const detailContainer = document.getElementById('detail-container');
-            detailContainer.style.display = (detailContainer.style.display === 'none') ? 'block' : 'none';
+            detailContainer.style.display = (detailContainer.style.display === 'none') ? 'flex' : 'none';
         }
 
         function closeDetail() {
@@ -408,6 +408,7 @@
                     console.log("QR получен");
                     saveQrResult(result);
                     const scannedQR = result.data;
+                    toggleHistory();
                     showDetail(scannedQR);
                     Telegram.WebApp.offEvent('qrTextReceived', handleQrTextReceived); // Удаляем обработчик события после получения QR кода
                 }
