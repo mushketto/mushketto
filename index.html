@@ -261,7 +261,7 @@
             }
         }
 
-        function historyinfo(xmlData, barcodeToSearch) {
+        function historyname(xmlData, barcodeToSearch) {
             // Создаем парсер для XML
             var parser = new DOMParser();
             var xmlDoc = parser.parseFromString(xmlData, 'text/xml');
@@ -299,9 +299,9 @@
                     querySnapshot.forEach((doc) => {
                         const historyItem = document.createElement('div');
                         const qr = doc.data().text.data; 
-                        const historyname = historyinfo(xmlData, qr);
+                        const historyname1 = historyname(xmlData, qr);
                         historyItem.className = 'history-item';
-                        historyItem.textContent = `${historyname} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
+                        historyItem.textContent = `${historyname1} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
                         historyContainer.appendChild(historyItem);
                     });
                 })
