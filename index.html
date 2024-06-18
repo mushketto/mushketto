@@ -192,65 +192,59 @@
             }
         }
 
-        function searchProductInDatabase(scannedQR) {
-            const productCollectionRef = db.collection('Product');
-
-            // Функция для логирования пути поиска
-            function logSearchPath(path) {
-                console.log('Путь поиска:', path);
-            }
-
-            // Функция для поиска QR в каждом документе коллекции
-            function searchInDocument(docRef, path) {
-                logSearchPath(path);
-                docRef.get()
-                    .then((docSnapshot) => {
-                        if (docSnapshot.exists) {
-                            const data = docSnapshot.data();
-                            console.log('QR: ', data.QR);
-                            if (data.QR === scannedQR) {
-                                console.log('QR code найден: ', docSnapshot.id, ' => ', data);
-                            }
-                            // Если в документе есть коллекции, ищем в них
-                            if (docSnapshot.collections) {
-                                docSnapshot.collections.forEach((collectionRef) => {
-                                    searchInCollection(collectionRef, path + '/' + docSnapshot.id);
-                                });
-                            }
-                        } else {
-                            console.log('Документ не существует');
-                        }
-                    })
-                    .catch((error) => {
-                        console.error('Ошибка при получении документа: ', error);
-                    });
-            }
-
-            // Функция для поиска QR в каждой коллекции
-            function searchInCollection(collectionRef, path) {
-                logSearchPath(path);
-                collectionRef.get()
-                    .then((querySnapshot) => {
-                        querySnapshot.forEach((doc) => {
-                            searchInDocument(doc.ref, path + '/' + collectionRef.id);
-                        });
-                    })
-                    .catch((error) => {
-                        console.error('Ошибка при получении коллекции: ', error);
-                    });
-            }
-
-            // Начинаем поиск с корневой коллекции 'Product'
-            productCollectionRef.get()
+        /*function searchProductInDatabase(scannedQR) {
+            // Здесь предполагается, что структура базы данных имеет коллекции с подколлекциями и документы внутри них
+            db.collection('Product').get()
                 .then((querySnapshot) => {
+                    let found = false;
                     querySnapshot.forEach((doc) => {
-                        searchInDocument(doc.ref, 'Product/' + doc.id);
+                        const data = doc.data();
+                        console.log('QR1: ', data.QR);
+                        console.log('QR2: ', scannedQR);
+                        if (data.QR === scannedQR) {
+                            console.log('QR code найден в базе данных Product: ', doc.id, ' => ', data);
+                            found = true;
+                        }
                     });
+                    if (!found) {
+                        console.log('QR code не найден в базе данных Product');
+                    }
                 })
                 .catch((error) => {
-                    console.error('Ошибка при получении корневой коллекции: ', error);
+                    console.error('Ошибка при поиске QR кода в базе данных Product: ', error);
                 });
         }
+            */
+
+
+            const axios = require('axios');
+        const xml2js = require('xml2js');
+
+        async function compareBarcodeWithQRCode(xmlUrl, qrCode) {
+            try {
+                // Загрузка XML файла
+                const response = await axios.get(xmlUrl);
+                const xmlData = response.data;
+
+                // Парсинг XML в объект JavaScript
+                const parser = new xml2js.Parser({ explicitArray: false });
+                const parsedData = await parser.parseStringPromise(xmlData);
+
+                // Извлечение значения <barcode>
+                const barcodeValue = parsedData.product.barcode;
+
+                // Сравнение с qrCode
+                if (barcodeValue === qrCode) {
+                    console.log(`Значение <barcode> (${barcodeValue}) совпадает с QR кодом (${qrCode})`);
+                } else {
+                    console.log(`Значение <barcode> (${barcodeValue}) не совпадает с QR кодом (${qrCode})`);
+                }
+            } catch (error) {
+                console.error('Ошибка при загрузке и обработке XML:', error);
+            }
+        }
+
+        const xmlUrl = 'https://firebasestorage.googleapis.com/v0/b/mini-apps-9f87a.appspot.com/o/hli_dress_ukr.xml?alt=media&token=749d17f5-7e81-418d-9207-0a9b3a04b0dd';
 
 
 
@@ -291,7 +285,8 @@
                     console.log("QR получен");
                     saveQrResult(result);
                     const scannedQR = result.data;
-                    searchProductInDatabase(scannedQR);
+                    compareBarcodeWithQRCode(xmlUrl, scannedQR);
+                    //searchProductInDatabase(scannedQR);
                     Telegram.WebApp.offEvent('qrTextReceived', handleQrTextReceived); // Удаляем обработчик события
                 }
             };
