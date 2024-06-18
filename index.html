@@ -298,10 +298,8 @@
                 .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
                         const historyItem = document.createElement('div');
-                        const qr = doc.data().text.data; 
-                        const historyname1 = historyname(xmlData, qr);
                         historyItem.className = 'history-item';
-                        historyItem.textContent = `${historyname1} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
+                        historyItem.textContent = `${historyname(xmlData, doc.data().text.data)} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
                         historyContainer.appendChild(historyItem);
                     });
                 })
