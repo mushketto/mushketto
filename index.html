@@ -216,99 +216,78 @@
         }
             */
 
-        const xmlUrl = 'https://raw.githubusercontent.com/mushketto/mushketto/main/products.xml';
+        function historyname(barcodeToSearch) {
+            const xmlUrl = 'https://raw.githubusercontent.com/mushketto/mushketto/main/products.xml';
 
-        function searchBarcodeInXML(xmlUrl, barcodeToSearch) {
-            // Создаем объект XMLHttpRequest для загрузки XML файла
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        // XML файл успешно загружен
-                        var xmlData = xhr.responseText;
-                        searchBarcode(xmlData, barcodeToSearch);
-                    } else {
-                        console.error('Ошибка загрузки XML файла:', xhr.status);
-                    }
-                }
-            };
-            xhr.open('GET', xmlUrl, true);
-            xhr.send();
-        }
+            return new Promise((resolve, reject) => {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            var xmlData = xhr.responseText;
+                            var parser = new DOMParser();
+                            var xmlDoc = parser.parseFromString(xmlData, 'text/xml');
 
-        function searchBarcode(xmlData, barcodeToSearch) {
-            // Создаем парсер для XML
-            var parser = new DOMParser();
-            var xmlDoc = parser.parseFromString(xmlData, 'text/xml');
+                            var items = xmlDoc.getElementsByTagName('item');
 
-            // Получаем список элементов <item>
-            var items = xmlDoc.getElementsByTagName('item');
-
-            // Проходим по каждому элементу <item> и ищем <barcode>
-            for (var i = 0; i < items.length; i++) {
-                var item = items[i];
-                var barcodeElement = item.getElementsByTagName('barcode')[0];
-                var idElement = item.getElementsByTagName('id')[0];
-                if (barcodeElement) {
-                    var barcodeValue = barcodeElement.textContent.trim();
-                    var idValue = idElement.textContent.trim();
-                    // Сравниваем найденное значение с barcodeToSearch
-                    if (barcodeValue === barcodeToSearch) {
-                        console.log(`Найден <barcode> (${barcodeValue}) в элементе ${idValue}`);
-                        // Можно выполнить дополнительные действия здесь, если нужно
-                    }
-                }
-            }
-        }
-
-        function historyname(xmlData, barcodeToSearch) {
-            var parser = new DOMParser();
-            var xmlDoc = parser.parseFromString(xmlData, 'text/xml');
-
-            var items = xmlDoc.getElementsByTagName('item');
-
-            for (var i = 0; i < items.length; i++) {
-                var item = items[i];
-                var barcodeElement = item.getElementsByTagName('barcode')[0];
-                if (barcodeElement) {
-                    var barcodeValue = barcodeElement.textContent.trim();
-                    if (barcodeValue === barcodeToSearch) {
-                        var nameElement = item.getElementsByTagName('names')[0];
-                        if (nameElement) {
-                            var nameValue = nameElement.textContent.trim();
-                            console.log(`Найден <barcode> (${barcodeValue}) в элементе <name> (${nameValue})`);
-                            return nameValue;
+                            for (var i = 0; i < items.length; i++) {
+                                var item = items[i];
+                                var barcodeElement = item.getElementsByTagName('barcode')[0];
+                                if (barcodeElement) {
+                                    var barcodeValue = barcodeElement.textContent.trim();
+                                    if (barcodeValue === barcodeToSearch) {
+                                        var nameElement = item.getElementsByTagName('names')[0];
+                                        if (nameElement) {
+                                            var nameValue = nameElement.textContent.trim();
+                                            console.log(`Найден <barcode> (${barcodeValue}) в элементе <name> (${nameValue})`);
+                                            resolve(nameValue);
+                                            return;
+                                        }
+                                    }
+                                }
+                            }
+                            console.log(`Штрихкод ${barcodeToSearch} не найден в XML`);
+                            resolve(null);
+                        } else {
+                            reject('Ошибка загрузки XML файла: ' + xhr.status);
                         }
                     }
-                }
-            }
-            console.log(`Штрихкод ${barcodeToSearch} не найден в XML`);
-            // Если не найдено совпадений, возвращаем null или пустую строку
-            return null; // или return '';
+                };
+                xhr.open('GET', xmlUrl, true);
+                xhr.send();
+            });
         }
-        console.log(searchBarcode(xmlUrl, 4823077621635));
-        console.log(historyname(xmlUrl, 4823077621635));
+        historyname('4823077621635').then((name) => {
+            console.log('Результат поиска:', name);
+        }).catch((error) => {
+            console.error('Ошибка:', error);
+        });
+
 
         // Функция для отображения истории
         function showHistory() {
-            const historyContainer = document.getElementById('history-items'); // Изменено на 'history-items'
+            const historyContainer = document.getElementById('history-items');
             historyContainer.innerHTML = '';
 
-            const user = userid = "'" + userId + "'";
-            db.collection('users').doc(user).collection('qrHistory').orderBy('timestamp', 'desc').get()
+            const userId = Telegram.WebApp.initDataUnsafe.user.id;
+            db.collection('users').doc(userId).collection('qrHistory').orderBy('timestamp', 'desc').get()
                 .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
-                        const historyItem = document.createElement('div');
-                        historyItem.className = 'history-item';
-                        historyItem.textContent = `${historyname(xmlUrl, doc.data().text.data)} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
-                        console.log(doc.data().text.data);
-                        historyContainer.appendChild(historyItem);
+                        historyname(doc.data().text).then((nameValue) => {
+                            const historyItem = document.createElement('div');
+                            historyItem.className = 'history-item';
+                            historyItem.textContent = `${nameValue} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
+                            historyContainer.appendChild(historyItem);
+                        }).catch((error) => {
+                            console.error('Ошибка при получении имени из XML:', error);
+                        });
                     });
                 })
                 .catch((error) => {
-                    console.error('Ошибка при получении истории QR: ', error);
+                    console.error('Ошибка при получении истории QR:', error);
                 });
         }
+
 
 
 
