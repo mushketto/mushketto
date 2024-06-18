@@ -239,7 +239,6 @@
                                         var nameElement = item.getElementsByTagName('name')[0];
                                         if (nameElement) {
                                             var nameValue = nameElement.textContent.trim();
-                                            console.log(`Найден <barcode> (${barcodeValue}) в элементе <name> (${nameValue})`);
                                             resolve(nameValue);
                                             return;
                                         }
@@ -257,11 +256,6 @@
                 xhr.send();
             });
         }
-        historyname('4823077621635').then((name) => {
-            console.log('Результат поиска:', name);
-        }).catch((error) => {
-            console.error('Ошибка:', error);
-        });
 
 
         // Функция для отображения истории
@@ -275,7 +269,7 @@
                     querySnapshot.forEach((doc) => {
                         const historyItem = document.createElement('div');
                         historyItem.className = 'history-item';
-                        historyname('4823077621635').then((name) => {
+                        historyname(doc.data().text.data).then((name) => {
                             historyItem.textContent = `${name} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
                         });
                         console.log(doc.data().text.data);
@@ -286,8 +280,6 @@
                     console.error('Ошибка при получении истории QR: ', error);
                 });
         }
-
-
 
         // Функция для открытия QR-сканера и сохранения результата
         function openQRScanner() {
