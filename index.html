@@ -300,7 +300,7 @@
                         historyItem.className = 'history-item';
                         historyname(doc.data().text.data).then((name) => {
                             historyItem.textContent = `${name} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
-                            historyItem.onclick = () => showDetail(doc.data().text.data, name);
+                            historyItem.onclick = () => showDetail(doc.data().text.data);
                         });
                         historyContainer.appendChild(historyItem);
                     });
@@ -310,13 +310,13 @@
                 });
         }
 
-        function showDetail(barcode, name) {
+        function showDetail(barcode) {
             const detailContainer = document.getElementById('detail-container');
             const detailContent = document.getElementById('detail-content');
 
             // Fetch detailed information about the product
             fetchProductDetails(barcode).then((details) => {
-                detailContent.innerHTML = `<h2>${name}</h2>`;
+                detailContent.innerHTML = `<h2>${details.name}</h2>`;
                 if (details.vendor) {
                     detailContent.innerHTML += `<p>Виготовник: ${details.vendor}</p>`;
                 }
@@ -363,6 +363,7 @@
                                 if (barcodeElement) {
                                     var barcodeValue = barcodeElement.textContent.trim();
                                     if (barcodeValue === barcode) {
+                                        var name = item.getElementsByTagName('vendor')[0]?.textContent.trim() || null;
                                         var vendor = item.getElementsByTagName('vendor')[0]?.textContent.trim() || null;
                                         var description = item.getElementsByTagName('description')[0]?.textContent.trim() || null;
                                         var price = item.getElementsByTagName('priceRUAH')[0]?.textContent.trim() || null;
@@ -377,6 +378,7 @@
                                         var stock = item.getElementsByTagName('stock')[0]?.textContent.trim() || null;
 
                                         var productDetails = {
+                                            name: name,
                                             vendor: vendor,
                                             description: description,
                                             price: price,
