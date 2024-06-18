@@ -191,48 +191,59 @@
                 showHistory();
             }
         }
+
         function searchProductInDatabase(scannedQR) {
-            // Ссылка на корневую коллекцию 'Product'
             const productCollectionRef = db.collection('Product');
 
-            // Функция рекурсивного поиска в коллекциях и подколлекциях
-            function searchInCollection(collectionRef) {
-                collectionRef.get()
-                    .then((querySnapshot) => {
-                        let found = false;
-                        querySnapshot.forEach((doc) => {
-                            const data = doc.data();
+            // Функция для поиска QR в каждом документе коллекции
+            function searchInDocument(docRef) {
+                docRef.get()
+                    .then((docSnapshot) => {
+                        if (docSnapshot.exists) {
+                            const data = docSnapshot.data();
                             console.log('QR: ', data.QR);
                             if (data.QR === scannedQR) {
-                                console.log('QR code найден: ', doc.id, ' => ', data);
-                                found = true;
+                                console.log('QR code найден: ', docSnapshot.id, ' => ', data);
                             }
-                        });
-                        if (!found) {
-                            console.log('QR code не найден в текущей коллекции');
+                            // Если в документе есть коллекция, ищем в ней
+                            if (docSnapshot.collections) {
+                                docSnapshot.collections.forEach((collectionRef) => {
+                                    searchInCollection(collectionRef);
+                                });
+                            }
+                        } else {
+                            console.log('Документ не существует');
                         }
                     })
                     .catch((error) => {
-                        console.error('Ошибка при поиске QR кода в коллекции: ', error);
+                        console.error('Ошибка при получении документа: ', error);
                     });
             }
 
-            // Рекурсивная функция для поиска во всех уровнях коллекций и подколлекций
-            function recursiveSearch(collectionRef) {
-                searchInCollection(collectionRef);
-                // Получаем все подколлекции текущей коллекции и рекурсивно ищем в них
-                collectionRef.get().then((querySnapshot) => {
+            // Функция для поиска QR в каждой коллекции
+            function searchInCollection(collectionRef) {
+                collectionRef.get()
+                    .then((querySnapshot) => {
+                        querySnapshot.forEach((doc) => {
+                            searchInDocument(doc.ref);
+                        });
+                    })
+                    .catch((error) => {
+                        console.error('Ошибка при получении коллекции: ', error);
+                    });
+            }
+
+            // Начинаем поиск с корневой коллекции 'Product'
+            productCollectionRef.get()
+                .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
-                        const subCollectionRef = collectionRef.doc(doc.id).collection('subcollection'); // Укажите подколлекцию, если она существует
-                        recursiveSearch(subCollectionRef);
+                        searchInDocument(doc.ref);
                     });
+                })
+                .catch((error) => {
+                    console.error('Ошибка при получении корневой коллекции: ', error);
                 });
-            }
-
-            // Начинаем рекурсивный поиск с корневой коллекции 'Product'
-            recursiveSearch(productCollectionRef);
         }
-
 
 
         // Функция для отображения истории
