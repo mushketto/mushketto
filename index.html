@@ -293,7 +293,7 @@
             const historyContainer = document.getElementById('history-items'); // Изменено на 'history-items'
             historyContainer.innerHTML = '';
 
-            user = userid = "'" + userId + "'";
+            const user = userid = "'" + userId + "'";
             db.collection('users').doc(user).collection('qrHistory').orderBy('timestamp', 'desc').get()
                 .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
