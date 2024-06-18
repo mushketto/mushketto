@@ -404,6 +404,7 @@
                     saveQrResult(result);
                     const scannedQR = result.data;
                     showDetail(scannedQR);
+                    showHistory();
                     Telegram.WebApp.offEvent('qrTextReceived', handleQrTextReceived); // Удаляем обработчик события после получения QR кода
                 }
             };
