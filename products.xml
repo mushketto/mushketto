@@ -65,9 +65,9 @@
             <categoryId>4</categoryId>
             <group_id>1</group_id>
             <code>60190</code>
-            <barcode>4823077621635</barcode>
             <vendor>LEGO</vendor>
             <name>Конструктор City Arctic Expedition Аеросани</name>
+            <barcode>4823077621635</barcode>
             <description>Вікова група - від 5 років, кількість деталей - 50 шт</description>
             <priceRUAH>199.00</priceRUAH>
             <guarantee unit="days" type="shop">14</guarantee>
@@ -112,8 +112,8 @@
             <group_id>1</group_id>
             <code>LX.AQL0X.039</code>
             <vendor>Acer</vendor>
-            <barcode>4006581020666</barcode>
             <name>Aspire 4930G-843G25Mn</name>
+            <barcode>4006581020666</barcode>
             <description>C2D P8400 2.26G/3G/250G/CR5in1/SMulti/14.1" WXGA CB/NVIDIA GeForce 9300M GS 256Mb/WiFi abg/BT 2.0/</description>
             <priceRUAH>4825.00</priceRUAH>
             <stock>В наявності</stock>
