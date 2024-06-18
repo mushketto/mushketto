@@ -221,30 +221,6 @@
             }
         }
 
-        /*function searchProductInDatabase(scannedQR) {
-            // Здесь предполагается, что структура базы данных имеет коллекции с подколлекциями и документы внутри них
-            db.collection('Product').get()
-                .then((querySnapshot) => {
-                    let found = false;
-                    querySnapshot.forEach((doc) => {
-                        const data = doc.data();
-                        console.log('QR1: ', data.QR);
-                        console.log('QR2: ', scannedQR);
-                        if (data.QR === scannedQR) {
-                            console.log('QR code найден в базе данных Product: ', doc.id, ' => ', data);
-                            found = true;
-                        }
-                    });
-                    if (!found) {
-                        console.log('QR code не найден в базе данных Product');
-                    }
-                })
-                .catch((error) => {
-                    console.error('Ошибка при поиске QR кода в базе данных Product: ', error);
-                });
-        }
-            */
-
         function historyname(barcodeToSearch) {
             const xmlUrl = 'https://raw.githubusercontent.com/mushketto/mushketto/main/products.xml';
 
@@ -337,6 +313,10 @@
                 console.error('Ошибка при получении подробной информации о товаре: ', error);
             });
         }
+        function toggleDetail() {
+            const detailContainer = document.getElementById('detail-container');
+            detailContainer.style.display = (detailContainer.style.display === 'none') ? 'block' : 'none';
+        }
 
         function closeDetail() {
             const detailContainer = document.getElementById('detail-container');
@@ -427,8 +407,8 @@
                     console.log("QR получен");
                     saveQrResult(result);
                     const scannedQR = result.data;
+                    toggleDetail();
                     showDetail(scannedQR);
-                    //searchProductInDatabase(scannedQR);
                     Telegram.WebApp.offEvent('qrTextReceived', handleQrTextReceived); // Удаляем обработчик события после получения QR кода
                 }
             };
@@ -440,8 +420,6 @@
             qrTextReceivedHandler = handleQrTextReceived;
             Telegram.WebApp.onEvent('qrTextReceived', qrTextReceivedHandler);
         }
-
-
 
         function webappready(){
             Telegram.WebApp.ready;
