@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<price>
+<date>2021-09-10 17:00</date>
+    <firmName>Назва магазину</firmName>
+    <firmId>1234</firmId>
+    <rate>28.2</rate>
+    <categories>
+        <category>
+            <id>1</id>
+            <name>Спортивний одяг</name>
+        </category>
+        <category>
+            <id>2</id>
+            <parentId>1</parentId>
+            <name>Футболки, топи</name>
+        </category>
+    </categories>
+    <items>
+        <item>
+            <id>3278</id>
+            <categoryId>2</categoryId>
+            <group_id> 127</group_id>
+            <code>15076887_605</code>
+			<barcode>8000070020580</barcode>
+            <vendor>ONLY</vendor>
+            <name>Neon Love SA top</name>
+            <description>Жіноча футболка с довгими рукавами</description>
+            <url>http://shop.ua/1/2/3278.html</url>
+            <image>http://shop.ua/img/1/2/picture3278-1.jpg</image>
+            <image>http://shop.ua/img/1/2/picture3278-2.jpg</image>
+            <image>http://shop.ua/img/1/2/picture3278-3.jpg</image>
+            <image>http://shop.ua/img/1/2/picture3278-4.jpg</image>
+            <priceRUAH>360</priceRUAH>
+            <priceRUSD>12</priceRUSD>
+			<shipping>1</shipping>
+            <stock>В наявності</stock>
+            <guarantee unit="days" type="shop">14</guarantee>
+            <param name="Розмір" unit="UA">44</param>
+            <param name="Колір">Червоний</param>
+            <param name="Стать">Жіноча</param>
+            <param name="Оригінальність">Оригінал</param>
+            <param name="Країна виготовлення">Австрія</param>
+            <param name="Сезон">Осінь</param>
+            <param name="Тип">Футболка</param>
+            <param name="Матеріал">Бавовна</param>
+            <param name="Капюшон">Ні</param>
+        </item>
+        <item>
+            ...
+        </item>
+    </items>
+</price>
