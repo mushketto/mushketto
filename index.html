@@ -220,6 +220,15 @@
             }
         }
 
+        function toggleDetails(qr) {
+            const detailContainer = document.getElementById('detail-container');
+            detailContainer.style.display = (detailContainer.style.display === 'none') ? 'flex' : 'none';
+
+            if (detailContainer.style.display === 'flex') {
+                showDetail(qr)
+            }
+        }
+
         function historyname(barcodeToSearch) {
             const xmlUrl = 'https://raw.githubusercontent.com/mushketto/mushketto/main/products.xml';
 
@@ -419,7 +428,7 @@
                     console.log("QR получен");
                     saveQrResult(result);
                     const scannedQR = result.data;
-                    showDetail(scannedQR);
+                    toggleDetails(scannedQR);
                     Telegram.WebApp.offEvent('qrTextReceived', handleQrTextReceived); // Удаляем обработчик события после получения QR кода
                 }
             };
