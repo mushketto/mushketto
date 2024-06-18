@@ -310,7 +310,8 @@
                                 if (barcodeElement) {
                                     var barcodeValue = barcodeElement.textContent.trim();
                                     if (barcodeValue === barcodeToSearch) {
-                                        return true;
+                                        resolve(true); // Штрих-код найден, разрешаем Promise с true
+                                        return;
                                     }
                                 }
                             }
@@ -484,13 +485,18 @@
                     Telegram.WebApp.closeScanQrPopup();
                     console.log("QR получен");
                     const scannedQR = result.data;
-                    console.loh(scanqrcheck(result.data));
-                    if (scanqrcheck(result.data) == true){
-                        saveQrResult(result);
-                        toggleDetails(scannedQR);
-                    } else {
-                        showNotification("Товар не знайденний у базі");
-                    };
+                    console.log(scanqrcheck(result.data));
+                    scanqrcheck(result.data)
+                        .then((result) => {
+                            if (result === true) {
+                                console.log('Штрих-код найден');
+                                saveQrResult(result);
+                                toggleDetails(scannedQR);
+                            } else {
+                                console.log('Штрих-код не найден');
+                                showNotification("Товар не знайденний у базі");
+                            }
+                        });
                     Telegram.WebApp.offEvent('qrTextReceived', handleQrTextReceived); // Удаляем обработчик события после получения QR кода
                 }
             };
