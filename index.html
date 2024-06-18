@@ -191,25 +191,47 @@
                 showHistory();
             }
         }
+        function searchProductInDatabase(scannedQR) {
+            // Ссылка на корневую коллекцию 'Product'
+            const productCollectionRef = db.collection('Product');
 
-        function searchProductInDatabase(scannedQR, path = 'Product') {
-            // Поиск документа с полем QR равным scannedQR в указанном пути
-            db.collection(path).get()
-                .then((querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        const data = doc.data();
-                        if (data.QR === scannedQR) {
-                            console.log(`QR code найден в базе данных ${path}/${doc.id}/QR:`, data.QR);
+            // Функция рекурсивного поиска в коллекциях и подколлекциях
+            function searchInCollection(collectionRef) {
+                collectionRef.get()
+                    .then((querySnapshot) => {
+                        let found = false;
+                        querySnapshot.forEach((doc) => {
+                            const data = doc.data();
+                            console.log('QR: ', data.QR);
+                            if (data.QR === scannedQR) {
+                                console.log('QR code найден: ', doc.id, ' => ', data);
+                                found = true;
+                            }
+                        });
+                        if (!found) {
+                            console.log('QR code не найден в текущей коллекции');
                         }
-                        // Рекурсивный поиск во всех подколлекциях и документах
-                        searchProductInDatabase(scannedQR, `${path}/${doc.id}`);
+                    })
+                    .catch((error) => {
+                        console.error('Ошибка при поиске QR кода в коллекции: ', error);
                     });
-                })
-                .catch((error) => {
-                    console.error(`Ошибка при поиске в базе данных ${path}:`, error);
-                });
-        }
+            }
 
+            // Рекурсивная функция для поиска во всех уровнях коллекций и подколлекций
+            function recursiveSearch(collectionRef) {
+                searchInCollection(collectionRef);
+                // Получаем все подколлекции текущей коллекции и рекурсивно ищем в них
+                collectionRef.get().then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        const subCollectionRef = collectionRef.doc(doc.id).collection('subcollection'); // Укажите подколлекцию, если она существует
+                        recursiveSearch(subCollectionRef);
+                    });
+                });
+            }
+
+            // Начинаем рекурсивный поиск с корневой коллекции 'Product'
+            recursiveSearch(productCollectionRef);
+        }
 
 
 
