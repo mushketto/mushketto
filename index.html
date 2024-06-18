@@ -275,7 +275,9 @@
                     querySnapshot.forEach((doc) => {
                         const historyItem = document.createElement('div');
                         historyItem.className = 'history-item';
-                        historyItem.textContent = `${historyname(doc.data().text.data)} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
+                        historyname('4823077621635').then((name) => {
+                            historyItem.textContent = `${name} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
+                        });
                         console.log(doc.data().text.data);
                         historyContainer.appendChild(historyItem);
                     });
