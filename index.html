@@ -466,6 +466,8 @@
                     if (scanqrcheck(result.data) == true){
                         saveQrResult(result);
                         toggleDetails(scannedQR);
+                    } else {
+                        console.log('не совпал');
                     };
                     Telegram.WebApp.offEvent('qrTextReceived', handleQrTextReceived); // Удаляем обработчик события после получения QR кода
                 }
