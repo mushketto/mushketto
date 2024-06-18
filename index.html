@@ -195,8 +195,14 @@
         function searchProductInDatabase(scannedQR) {
             const productCollectionRef = db.collection('Product');
 
+            // Функция для логирования пути поиска
+            function logSearchPath(path) {
+                console.log('Путь поиска:', path);
+            }
+
             // Функция для поиска QR в каждом документе коллекции
-            function searchInDocument(docRef) {
+            function searchInDocument(docRef, path) {
+                logSearchPath(path);
                 docRef.get()
                     .then((docSnapshot) => {
                         if (docSnapshot.exists) {
@@ -205,10 +211,10 @@
                             if (data.QR === scannedQR) {
                                 console.log('QR code найден: ', docSnapshot.id, ' => ', data);
                             }
-                            // Если в документе есть коллекция, ищем в ней
+                            // Если в документе есть коллекции, ищем в них
                             if (docSnapshot.collections) {
                                 docSnapshot.collections.forEach((collectionRef) => {
-                                    searchInCollection(collectionRef);
+                                    searchInCollection(collectionRef, path + '/' + docSnapshot.id);
                                 });
                             }
                         } else {
@@ -221,11 +227,12 @@
             }
 
             // Функция для поиска QR в каждой коллекции
-            function searchInCollection(collectionRef) {
+            function searchInCollection(collectionRef, path) {
+                logSearchPath(path);
                 collectionRef.get()
                     .then((querySnapshot) => {
                         querySnapshot.forEach((doc) => {
-                            searchInDocument(doc.ref);
+                            searchInDocument(doc.ref, path + '/' + collectionRef.id);
                         });
                     })
                     .catch((error) => {
@@ -237,13 +244,14 @@
             productCollectionRef.get()
                 .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
-                        searchInDocument(doc.ref);
+                        searchInDocument(doc.ref, 'Product/' + doc.id);
                     });
                 })
                 .catch((error) => {
                     console.error('Ошибка при получении корневой коллекции: ', error);
                 });
         }
+
 
 
         // Функция для отображения истории
