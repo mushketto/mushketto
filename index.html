@@ -299,9 +299,9 @@
                     querySnapshot.forEach((doc) => {
                         const historyItem = document.createElement('div');
                         const qr = doc.data().text.data; 
-                        const historyinfo = historyinfo(xmlData, qr);
+                        const name = historyinfo(xmlData, qr);
                         historyItem.className = 'history-item';
-                        historyItem.textContent = `${historyinfo} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
+                        historyItem.textContent = `${name} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
                         historyContainer.appendChild(historyItem);
                     });
                 })
