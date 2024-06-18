@@ -23,7 +23,7 @@
             <code>15076887_605</code>
             <barcode>8000070020580</barcode>
             <vendor>ONLY</vendor>
-            <name>Neon Love SA top</name>
+            <name>Neon Love SA top1</name>
             <description>Жіноча футболка с довгими рукавами</description>
             <url>http://shop.ua/1/2/3278.html</url>
             <image>http://shop.ua/img/1/2/picture3278-1.jpg</image>
@@ -45,36 +45,6 @@
             <param name="Матеріал">Бавовна</param>
             <param name="Капюшон">Ні</param>
         </item>
-        <item>
-            <id>33321</id>
-            <categoryId>2</categoryId>
-            <group_id>127</group_id>
-            <code>15076887_605</code>
-            <barcode>4823077621635</barcode>
-            <vendor>ONLY</vendor>
-            <name>Neon Love SA top</name>
-            <description>Жіноча футболка с довгими рукавами</description>
-            <url>http://shop.ua/1/2/3278.html</url>
-            <image>http://shop.ua/img/1/2/picture3278-1.jpg</image>
-            <image>http://shop.ua/img/1/2/picture3278-2.jpg</image>
-            <image>http://shop.ua/img/1/2/picture3278-3.jpg</image>
-            <image>http://shop.ua/img/1/2/picture3278-4.jpg</image>
-            <priceRUAH>360</priceRUAH>
-            <priceRUSD>12</priceRUSD>
-            <shipping>1</shipping>
-            <stock>В наявності</stock>
-            <guarantee unit="days" type="shop">14</guarantee>
-            <param name="Розмір" unit="UA">44</param>
-            <param name="Колір">Червоний</param>
-            <param name="Стать">Жіноча</param>
-            <param name="Оригінальність">Оригінал</param>
-            <param name="Країна виготовлення">Австрія</param>
-            <param name="Сезон">Осінь</param>
-            <param name="Тип">Футболка</param>
-            <param name="Матеріал">Бавовна</param>
-            <param name="Капюшон">Ні</param>
-        </item>
-        <!-- Добавленные товары -->
         <item>
             <id>1200321</id>
             <categoryId>3</categoryId>
@@ -113,6 +83,7 @@
             <vendor>LG</vendor>
             <name>GBB940DNQZN</name>
             <description>окремостоячий, No Frost</description>
+            <barcode>4006581020436</barcode>
             <priceRUAH>23600.00</priceRUAH>
             <guarantee unit="months" type="shop">36</guarantee>
             <stock>Під замовлення</stock>
@@ -127,6 +98,7 @@
             <code>TS32GSDHC6</code>
             <vendor>TRANSCEND</vendor>
             <name>SDHC 32 GB (CLASS 6)</name>
+            <barcode>4006581020224</barcode>
             <priceRUAH>213.00</priceRUAH>
             <guarantee unit="months" type="shop">12</guarantee>
             <stock>В наявності</stock>
@@ -140,6 +112,7 @@
             <group_id>1</group_id>
             <code>LX.AQL0X.039</code>
             <vendor>Acer</vendor>
+            <barcode>4006581020666</barcode>
             <name>Aspire 4930G-843G25Mn</name>
             <description>C2D P8400 2.26G/3G/250G/CR5in1/SMulti/14.1" WXGA CB/NVIDIA GeForce 9300M GS 256Mb/WiFi abg/BT 2.0/</description>
             <priceRUAH>4825.00</priceRUAH>
