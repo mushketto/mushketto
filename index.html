@@ -232,7 +232,6 @@
                             var xmlData = xhr.responseText;
                             var parser = new DOMParser();
                             var xmlDoc = parser.parseFromString(xmlData, 'text/xml');
-
                             var items = xmlDoc.getElementsByTagName('item');
 
                             for (var i = 0; i < items.length; i++) {
@@ -262,7 +261,6 @@
             });
         }
 
-
         // Функция для отображения истории
         function showHistory() {
             const historyContainer = document.getElementById('history-items');
@@ -289,7 +287,9 @@
         function showDetail(barcode) {
             const detailContainer = document.getElementById('detail-container');
             const detailContent = document.getElementById('detail-content');
-            detailContainer.style.display = (detailContainer.style.display === 'none') ? 'flex' : 'none';
+            if (detailContainer.style.display !== 'flex') {
+            detailContainer.style.display = 'flex';
+            }
 
             // Fetch detailed information about the product
             fetchProductDetails(barcode).then((details) => {
