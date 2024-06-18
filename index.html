@@ -427,6 +427,7 @@
                     console.log("QR получен");
                     saveQrResult(result);
                     const scannedQR = result.data;
+                    showDetail(scannedQR);
                     //searchProductInDatabase(scannedQR);
                     Telegram.WebApp.offEvent('qrTextReceived', handleQrTextReceived); // Удаляем обработчик события после получения QR кода
                 }
