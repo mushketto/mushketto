@@ -248,12 +248,13 @@
             for (var i = 0; i < items.length; i++) {
                 var item = items[i];
                 var barcodeElement = item.getElementsByTagName('barcode')[0];
-                var id = item.getElementsByTagName('id')[0];
+                var idElement = item.getElementsByTagName('id')[0];
                 if (barcodeElement) {
                     var barcodeValue = barcodeElement.textContent.trim();
+                    var idValue = idElement.textContent.trim();
                     // Сравниваем найденное значение с barcodeToSearch
                     if (barcodeValue === barcodeToSearch) {
-                        console.log(`Найден <barcode> (${barcodeValue}) в элементе ${id}`);
+                        console.log(`Найден <barcode> (${barcodeValue}) в элементе ${idValue}`);
                         // Можно выполнить дополнительные действия здесь, если нужно
                     }
                 }
