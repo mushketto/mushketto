@@ -218,15 +218,15 @@
 
         const xmlUrl = 'https://raw.githubusercontent.com/mushketto/mushketto/main/products.xml';
 
-        function compareBarcodeWithQRCode(xmlUrl, qrCode) {
-            // Создаем объект XMLHttpRequest для отправки запроса
+        function searchBarcodeInXML(xmlUrl, barcodeToSearch) {
+            // Создаем объект XMLHttpRequest для загрузки XML файла
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
                         // XML файл успешно загружен
                         var xmlData = xhr.responseText;
-                        parseAndCompare(xmlData, qrCode);
+                        searchBarcode(xmlData, barcodeToSearch);
                     } else {
                         console.error('Ошибка загрузки XML файла:', xhr.status);
                     }
@@ -236,24 +236,26 @@
             xhr.send();
         }
 
-        function parseAndCompare(xmlData, qrCode) {
+        function searchBarcode(xmlData, barcodeToSearch) {
             // Создаем парсер для XML
             var parser = new DOMParser();
             var xmlDoc = parser.parseFromString(xmlData, 'text/xml');
 
-            // Ищем значение тега <barcode>
-            var barcodeNode = xmlDoc.getElementsByTagName('barcode')[0];
-            if (barcodeNode) {
-                var barcodeValue = barcodeNode.textContent;
+            // Получаем список элементов <item>
+            var items = xmlDoc.getElementsByTagName('item');
 
-                // Сравниваем с qrCode
-                if (barcodeValue === qrCode) {
-                    console.log(`Значение <barcode> (${barcodeValue}) совпадает с QR кодом (${qrCode})`);
-                } else {
-                    console.log(`Значение <barcode> (${barcodeValue}) не совпадает с QR кодом (${qrCode})`);
+            // Проходим по каждому элементу <item> и ищем <barcode>
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i];
+                var barcodeElement = item.getElementsByTagName('barcode')[0];
+                if (barcodeElement) {
+                    var barcodeValue = barcodeElement.textContent.trim();
+                    // Сравниваем найденное значение с barcodeToSearch
+                    if (barcodeValue === barcodeToSearch) {
+                        console.log(`Найден <barcode> (${barcodeValue}) в элементе <item>`);
+                        // Можно выполнить дополнительные действия здесь, если нужно
+                    }
                 }
-            } else {
-                console.error('Тег <barcode> не найден в XML файле');
             }
         }
 
