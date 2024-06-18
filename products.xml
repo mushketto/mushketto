@@ -19,9 +19,9 @@
         <item>
             <id>3278</id>
             <categoryId>2</categoryId>
-            <group_id> 127</group_id>
+            <group_id>127</group_id>
             <code>15076887_605</code>
-			<barcode>8000070020580</barcode>
+            <barcode>8000070020580</barcode>
             <vendor>ONLY</vendor>
             <name>Neon Love SA top</name>
             <description>Жіноча футболка с довгими рукавами</description>
@@ -32,7 +32,7 @@
             <image>http://shop.ua/img/1/2/picture3278-4.jpg</image>
             <priceRUAH>360</priceRUAH>
             <priceRUSD>12</priceRUSD>
-			<shipping>1</shipping>
+            <shipping>1</shipping>
             <stock>В наявності</stock>
             <guarantee unit="days" type="shop">14</guarantee>
             <param name="Розмір" unit="UA">44</param>
@@ -48,11 +48,11 @@
         <item>
             <id>33321</id>
             <categoryId>2</categoryId>
-            <group_id> 127</group_id>
+            <group_id>127</group_id>
             <code>15076887_605</code>
-			<barcode>4823077621635</barcode>
+            <barcode>4823077621635</barcode>
             <vendor>ONLY</vendor>
-            <name>Neon Love SA top</names>
+            <name>Neon Love SA top</name>
             <description>Жіноча футболка с довгими рукавами</description>
             <url>http://shop.ua/1/2/3278.html</url>
             <image>http://shop.ua/img/1/2/picture3278-1.jpg</image>
@@ -61,7 +61,7 @@
             <image>http://shop.ua/img/1/2/picture3278-4.jpg</image>
             <priceRUAH>360</priceRUAH>
             <priceRUSD>12</priceRUSD>
-			<shipping>1</shipping>
+            <shipping>1</shipping>
             <stock>В наявності</stock>
             <guarantee unit="days" type="shop">14</guarantee>
             <param name="Розмір" unit="UA">44</param>
@@ -73,6 +73,117 @@
             <param name="Тип">Футболка</param>
             <param name="Матеріал">Бавовна</param>
             <param name="Капюшон">Ні</param>
+        </item>
+        <!-- Добавленные товары -->
+        <item>
+            <id>1200321</id>
+            <categoryId>3</categoryId>
+            <group_id>1</group_id>
+            <code>MRJP2</code>
+            <barcode>4006581020422</barcode>
+            <vendor>Apple</vendor>
+            <name>iPad 2018 128GB Wi-Fi Gold</name>
+            <priceRUAH>15400.00</priceRUAH>
+            <guarantee unit="months" type="shop">12</guarantee>
+            <stock>В наявності</stock>
+            <shipping>0</shipping>
+            <url>http://www.obrazec.com.ua/price/show1359616</url>
+            <image>http://www.obrazec.com.ua/image/1359616.jpg</image>
+        </item>
+        <item>
+            <id>1200323</id>
+            <categoryId>4</categoryId>
+            <group_id>1</group_id>
+            <code>60190</code>
+            <barcode>4823077621635</barcode>
+            <vendor>LEGO</vendor>
+            <name>Конструктор City Arctic Expedition Аеросани</name>
+            <description>Вікова група - від 5 років, кількість деталей - 50 шт</description>
+            <priceRUAH>199.00</priceRUAH>
+            <guarantee unit="days" type="shop">14</guarantee>
+            <stock>Під замовлення</stock>
+            <shipping>3</shipping>
+            <url>http://www.obrazec.com.ua/price/show1359754</url>
+            <image>http://www.obrazec.com.ua/image/1359754.jpg</image>
+        </item>
+        <item>
+            <id>1200325</id>
+            <categoryId>5</categoryId>
+            <group_id>1</group_id>
+            <vendor>LG</vendor>
+            <name>GBB940DNQZN</name>
+            <description>окремостоячий, No Frost</description>
+            <priceRUAH>23600.00</priceRUAH>
+            <guarantee unit="months" type="shop">36</guarantee>
+            <stock>Під замовлення</stock>
+            <shipping>3</shipping>
+            <url>http://www.obrazec.com.ua/price/show1359755</url>
+            <image>http://www.obrazec.com.ua/image/1359755.jpg</image>
+        </item>
+        <item>
+            <id>1200327</id>
+            <categoryId>6</categoryId>
+            <group_id>1</group_id>
+            <code>TS32GSDHC6</code>
+            <vendor>TRANSCEND</vendor>
+            <name>SDHC 32 GB (CLASS 6)</name>
+            <priceRUAH>213.00</priceRUAH>
+            <guarantee unit="months" type="shop">12</guarantee>
+            <stock>В наявності</stock>
+            <shipping>1</shipping>
+            <url>http://www.obrazec.com.ua/price/show1359771</url>
+            <image>http://www.obrazec.com.ua/image/1359771.jpg</image>
+        </item>
+        <item>
+            <id>1200328</id>
+            <categoryId>7</categoryId>
+            <group_id>1</group_id>
+            <code>LX.AQL0X.039</code>
+            <vendor>Acer</vendor>
+            <name>Aspire 4930G-843G25Mn</name>
+            <description>C2D P8400 2.26G/3G/250G/CR5in1/SMulti/14.1" WXGA CB/NVIDIA GeForce 9300M GS 256Mb/WiFi abg/BT 2.0/</description>
+            <priceRUAH>4825.00</priceRUAH>
+            <stock>В наявності</stock>
+            <shipping>1</shipping>
+            <url>http://www.obrazec.com.ua/price/show1491333</url>
+        </item>
+        <item>
+            <id>1200329</id>
+            <categoryId>8</categoryId>
+            <group_id>1</group_id>
+            <vendor>Panasonic</vendor>
+            <name>CS-A12CTP (CU-A12CTP5)</name>
+            <barcode>4006581022376</barcode>
+            <priceRUAH>6400.00</priceRUAH>
+            <guarantee unit="months" type="shop">24</guarantee>
+            <stock>Немає</stock>
+            <shipping>0</shipping>
+            <url>http://www.obrazec.com.ua/price/show1491453</url>
+            <image>http://www.obrazec.com.ua/image/1491453jpg</image>
+        </item>
+        <item>
+            <id>1200355</id>
+            <categoryId>9</categoryId>
+            <group_id>1</group_id>
+            <vendor>GOODYEAR</vendor>
+            <name>DuraGrip (175/70R13 82T)</name>
+            <description>літні, безкамерні</description>
+            <priceRUAH>1300.00</priceRUAH>
+            <stock>В наявності</stock>
+            <shipping>0</shipping>
+            <url>http://www.obrazec.com.ua/price/show1492332</url>
+            <image>http://www.obrazec.com.ua/image/1492332.jpg</image>
+        </item>
+        <item>
+            <id>1200357</id>
+            <categoryId>10</categoryId>
+            <group_id>1</group_id>
+            <vendor>TSW</vendor>
+            <name>Pace black (R15 W6.5 PCD5x114.3 ET38 DIA76,0)</name>
+            <priceRUAH>3122.00</priceRUAH>
+            <stock>Під замовлення</stock>
+            <shipping>3</shipping>
+            <url>http://www.obrazec.com.ua/price/show1492732</url>
         </item>
     </items>
 </price>
