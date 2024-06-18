@@ -142,7 +142,6 @@
                 <div class="history-item-container">
                     <div id="history-items"></div>
                 </div>
-        
         </div>
         <div class="bottom-container" id="detail-container" style="display: none;">
             <div id="detail-content"></div>
@@ -290,9 +289,7 @@
 
             detailContent.innerHTML = '';
             
-            if (detailContainer.style.display !== 'flex') {
-                detailContainer.style.display = 'flex';
-            }
+            detailContainer.style.display = 'flex';
 
             // Fetch detailed information about the product
             fetchProductDetails(barcode).then((details) => {
