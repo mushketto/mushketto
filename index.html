@@ -288,8 +288,6 @@
             const detailContent = document.getElementById('detail-content');
 
             detailContent.innerHTML = '';
-            
-            detailContainer.style.display = 'flex';
 
             // Fetch detailed information about the product
             fetchProductDetails(barcode).then((details) => {
@@ -309,6 +307,7 @@
                 if (details.stock) {
                     detailContent.innerHTML += `<p>Наявність: ${details.stock}</p>`;
                 }
+                detailContainer.style.display = 'flex';
             }).catch((error) => {
                 console.error('Ошибка при получении подробной информации о товаре: ', error);
             });
