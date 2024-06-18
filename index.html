@@ -44,6 +44,16 @@
             width: 100%;
         }
 
+        .deteils {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow-y: auto;
+            max-height: 100%;
+            width: 100%;
+        }
+
         a {
             font-size: 16px;
             padding: 16px 64px;
@@ -144,7 +154,7 @@
                 </div>
         
         </div>
-        <div class="bottom-container" id="detail-container" style="display: none;">
+        <div class="deteils" style="display: none;" id="detail-container">
             <div id="detail-content"></div>
             <a class="btn" onclick="closeDetail()">Закрити</a>
         </div>        
