@@ -134,6 +134,14 @@
             <a class="btn" onclick="openQRScanner()">Відкрити QR-Сканер</a>
             <a class="btn" onclick="toggleHistory()">Історія</a>
         </div>
+        <div id="detail-container" style="display: none;">
+            <div id="detail-content"></div>
+            <a class="btn" onclick="closeDetail()">Закрити</a>
+        </div> 
+        <div id="notification" style="display: none;">
+            <p id="notification-message"></p>
+            <a class="btn" onclick="closeNotification()">Закрыть</a>
+        </div>
         <div class="bottom-container" style="display: none;" id="history-container">
             <div class="history-container">
                 <div class="btn1">
@@ -142,14 +150,6 @@
                 <div class="history-item-container">
                     <div id="history-items"></div>
                 </div>
-        </div>
-        <div id="detail-container" style="display: none;">
-            <div id="detail-content"></div>
-            <a class="btn" onclick="closeDetail()">Закрити</a>
-        </div> 
-        <div id="notification" style="display: none;">
-            <p id="notification-message"></p>
-            <a class="btn" onclick="closeNotification()">Закрыть</a>
         </div>                
     </main>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
