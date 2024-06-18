@@ -308,6 +308,7 @@
                     detailContent.innerHTML += `<p>Наявність: ${details.stock}</p>`;
                 }
                 detailContainer.style.display = 'flex';
+                console.log("test");
             }).catch((error) => {
                 console.error('Ошибка при получении подробной информации о товаре: ', error);
             });
