@@ -100,7 +100,7 @@
             <name>SDHC 32 GB (CLASS 6)</name>
             <barcode>4006581020224</barcode>
             <priceRUAH>213.00</priceRUAH>
-            <guarantee unit="months" type="shop">12</guarantee>
+            <guarantee unit="years" type="shop">12</guarantee>
             <stock>В наявності</stock>
             <shipping>1</shipping>
             <url>http://www.obrazec.com.ua/price/show1359771</url>
