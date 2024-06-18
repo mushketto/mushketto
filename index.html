@@ -300,6 +300,7 @@
                         const historyItem = document.createElement('div');
                         historyItem.className = 'history-item';
                         historyItem.textContent = `${historyname(xmlUrl, doc.data().text.data)} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
+                        console.log(doc.data().text.data);
                         historyContainer.appendChild(historyItem);
                     });
                 })
