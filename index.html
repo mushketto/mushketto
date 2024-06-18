@@ -143,10 +143,14 @@
                     <div id="history-items"></div>
                 </div>
         </div>
-        <div class="bottom-container" id="detail-container" style="display: none;">
+        <div id="detail-container" style="display: none;">
             <div id="detail-content"></div>
             <a class="btn" onclick="closeDetail()">Закрити</a>
-        </div>        
+        </div> 
+        <div id="notification" style="display: none;">
+            <p id="notification-message"></p>
+            <a class="btn" onclick="closeNotification()">Закрыть</a>
+        </div>                
     </main>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -209,7 +213,24 @@
                     console.error('Ошибка при сохранении QR кода: ', error);
                 });
         }
+        function showNotification(message) {
+            const notificationElement = document.getElementById('notification');
+            const notificationMessageElement = document.getElementById('notification-message');
 
+            // Устанавливаем текст уведомления
+            notificationMessageElement.textContent = message;
+
+            // Показываем уведомление
+            notificationElement.style.display = 'block';
+        }
+
+        // Функция для закрытия уведомления
+        function closeNotification() {
+            const notificationElement = document.getElementById('notification');
+
+            // Скрываем уведомление
+            notificationElement.style.display = 'none';
+        }
         // Функция для отображения истории
         function toggleHistory() {
             const historyContainer = document.getElementById('history-container');
@@ -467,7 +488,7 @@
                         saveQrResult(result);
                         toggleDetails(scannedQR);
                     } else {
-                        console.log('не совпал');
+                        showNotification("Товар не знайденний у базі");
                     };
                     Telegram.WebApp.offEvent('qrTextReceived', handleQrTextReceived); // Удаляем обработчик события после получения QR кода
                 }
