@@ -484,6 +484,7 @@
                     Telegram.WebApp.closeScanQrPopup();
                     console.log("QR получен");
                     const scannedQR = result.data;
+                    scanqrcheck(result.data);
                     if (scanqrcheck(result.data) == true){
                         saveQrResult(result);
                         toggleDetails(scannedQR);
