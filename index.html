@@ -269,6 +269,42 @@
             });
         }
 
+
+        function scanqrcheck(barcodeToSearch) {
+            const xmlUrl = 'https://raw.githubusercontent.com/mushketto/mushketto/main/products.xml';
+
+            return new Promise((resolve, reject) => {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            var xmlData = xhr.responseText;
+                            var parser = new DOMParser();
+                            var xmlDoc = parser.parseFromString(xmlData, 'text/xml');
+                            var items = xmlDoc.getElementsByTagName('item');
+
+                            for (var i = 0; i < items.length; i++) {
+                                var item = items[i];
+                                var barcodeElement = item.getElementsByTagName('barcode')[0];
+                                if (barcodeElement) {
+                                    var barcodeValue = barcodeElement.textContent.trim();
+                                    if (barcodeValue === barcodeToSearch) {
+                                        return true;
+                                    }
+                                }
+                            }
+                            console.log(`Штрихкод ${barcodeToSearch} не найден в XML`);
+                            resolve(null);
+                        } else {
+                            reject('Ошибка загрузки XML файла: ' + xhr.status);
+                        }
+                    }
+                };
+                xhr.open('GET', xmlUrl, true);
+                xhr.send();
+            });
+        }
+
         // Функция для отображения истории
         function showHistory() {
             const historyContainer = document.getElementById('history-items');
@@ -426,9 +462,11 @@
                 if (result) {
                     Telegram.WebApp.closeScanQrPopup();
                     console.log("QR получен");
-                    saveQrResult(result);
                     const scannedQR = result.data;
-                    toggleDetails(scannedQR);
+                    if (scanqrcheck(result.data) == true){
+                        saveQrResult(result);
+                        toggleDetails(scannedQR);
+                    };
                     Telegram.WebApp.offEvent('qrTextReceived', handleQrTextReceived); // Удаляем обработчик события после получения QR кода
                 }
             };
