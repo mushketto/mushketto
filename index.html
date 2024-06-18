@@ -261,6 +261,32 @@
             }
         }
 
+        function historyinfo(xmlData, barcodeToSearch) {
+            // Создаем парсер для XML
+            var parser = new DOMParser();
+            var xmlDoc = parser.parseFromString(xmlData, 'text/xml');
+
+            // Получаем список элементов <item>
+            var items = xmlDoc.getElementsByTagName('item');
+
+            // Проходим по каждому элементу <item> и ищем <barcode>
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i];
+                var barcodeElement = item.getElementsByTagName('barcode')[0];
+                var nameElement = item.getElementsByTagName('name')[0];
+                if (barcodeElement) {
+                    var barcodeValue = barcodeElement.textContent.trim();
+                    var nameValue = nameElement.textContent.trim();
+                    // Сравниваем найденное значение с barcodeToSearch
+                    if (barcodeValue === barcodeToSearch) {
+                        console.log(`Найден <barcode> (${barcodeValue}) в элементе ${nameValue}`);
+                        // Можно выполнить дополнительные действия здесь, если нужно
+                        return nameValue;
+                    }
+                }
+            }
+        }
+
 
         // Функция для отображения истории
         function showHistory() {
@@ -272,8 +298,9 @@
                 .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
                         const historyItem = document.createElement('div');
+                        const historyinfo = historyinfo(xmlData, doc.data().text.data)
                         historyItem.className = 'history-item';
-                        historyItem.textContent = `${doc.data().text.data} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
+                        historyItem.textContent = `${historyinfo} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
                         historyContainer.appendChild(historyItem);
                     });
                 })
