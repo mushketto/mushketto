@@ -266,28 +266,24 @@
 
         // Функция для отображения истории
         function showHistory() {
-            const historyContainer = document.getElementById('history-items');
+            const historyContainer = document.getElementById('history-items'); // Изменено на 'history-items'
             historyContainer.innerHTML = '';
 
-            const userId = Telegram.WebApp.initDataUnsafe.user.id;
-            db.collection('users').doc(userId).collection('qrHistory').orderBy('timestamp', 'desc').get()
+            const user = userid = "'" + userId + "'";
+            db.collection('users').doc(user).collection('qrHistory').orderBy('timestamp', 'desc').get()
                 .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
-                        historyname(doc.data().text).then((nameValue) => {
-                            const historyItem = document.createElement('div');
-                            historyItem.className = 'history-item';
-                            historyItem.textContent = `${nameValue} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
-                            historyContainer.appendChild(historyItem);
-                        }).catch((error) => {
-                            console.error('Ошибка при получении имени из XML:', error);
-                        });
+                        const historyItem = document.createElement('div');
+                        historyItem.className = 'history-item';
+                        historyItem.textContent = `${historyname(doc.data().text.data)} - ${new Date(doc.data().timestamp.toDate()).toLocaleString()}`;
+                        console.log(doc.data().text.data);
+                        historyContainer.appendChild(historyItem);
                     });
                 })
                 .catch((error) => {
-                    console.error('Ошибка при получении истории QR:', error);
+                    console.error('Ошибка при получении истории QR: ', error);
                 });
         }
-
 
 
 
