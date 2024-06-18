@@ -487,8 +487,8 @@
                     const scannedQR = result.data;
                     console.log(scanqrcheck(result.data));
                     scanqrcheck(result.data)
-                        .then((result) => {
-                            if (result === true) {
+                        .then((isBarcodeFound) => {
+                            if (isBarcodeFound === true) {
                                 console.log('Штрих-код найден');
                                 saveQrResult(result);
                                 toggleDetails(scannedQR);
