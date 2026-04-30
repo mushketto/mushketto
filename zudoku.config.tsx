@@ -3,11 +3,11 @@ import type { ZudokuConfig } from "zudoku";
 const config: ZudokuConfig = {
   site: {
     logo: {
-      src: { light: "/logo-light.svg", dark: "/logo-dark.svg" },
-      alt: "Hotel Booking API",
+      src: { light: "logo-light.svg", dark: "logo-dark.svg" },
+      alt: "Project Documentation",
       width: "130px",
     },
-    title: "Hotel API Docs",
+    title: "Project Docs",
   },
   navigation: [
     {
@@ -24,6 +24,19 @@ const config: ZudokuConfig = {
             "/authorization", 
           ],
         },
+        {
+          type: "category",
+          label: "Кваліфікаційна робота",
+          icon: "book",
+          items: [
+            {
+              type: "link",
+              label: "Технічне завдання (SRS)",
+              to: "/srs",
+            },
+          ],
+        },
+        // -----------------------------
         {
           type: "category",
           label: "Resources",
