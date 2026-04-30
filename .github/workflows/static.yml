@@ -2,7 +2,7 @@ name: Deploy Zudoku to Pages
 
 on:
   push:
-    branches: ["main"] 
+    branches: ["mushketto"] 
   workflow_dispatch:
 
 permissions:
