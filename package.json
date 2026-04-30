@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "zudoku dev",
-    "build": "zudoku build",
+    "build": "zudoku build --base=/mushketto/",
     "preview": "zudoku preview",
     "lint": "eslint"
   },
