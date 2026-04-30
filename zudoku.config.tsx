@@ -1,6 +1,8 @@
 import type { ZudokuConfig } from "zudoku";
 
 const config: ZudokuConfig = {
+  base: "/mushketto/",
+  
   site: {
     logo: {
       src: { light: "/logo-light.svg", dark: "/logo-dark.svg" },
