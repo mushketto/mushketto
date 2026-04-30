@@ -1,0 +1,83 @@
+openapi: 3.0.3
+info:
+  title: Hotel Booking API
+  description: API для керування готелями та бронюванням номерів.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api/v1
+paths:
+  /hotels:
+    get:
+      summary: Отримати список усіх готелів
+      responses:
+        '200':
+          description: Успішна відповідь
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Hotel'
+    post:
+      summary: Додати новий готель
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hotel'
+      responses:
+        '201':
+          description: Готель створено
+
+  /hotels/{hotelId}/rooms:
+    get:
+      summary: Отримати список номерів конкретного готелю
+      parameters:
+        - name: hotelId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Список номерів
+
+components:
+  schemas:
+    Hotel:
+      type: object
+      required: [name, address]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        address:
+          type: string
+        stars:
+          type: integer
+          minimum: 1
+          maximum: 5
+    Room:
+      type: object
+      required: [number, type, price]
+      properties:
+        id:
+          type: integer
+        number:
+          type: string
+        type:
+          type: string
+          enum: [Single, Double, Suite]
+        price:
+          type: number
+        isAvailable:
+          type: boolean
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
